@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CardBot — Catálogo de Cartas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fundo: #1e1f29;
+    --fundo-2: #17181f;
+    --painel: #2b2d3a;
+    --painel-2: #32354424;
+    --borda: #4a4d63;
+    --texto: #f2f2f5;
+    --texto-fraco: #a9abbd;
+    --ouro: #ffb300;
+
+    --comum: #9e9e9e;
+    --incomum: #4caf50;
+    --raro: #3aa0ff;
+    --epico: #c04af0;
+    --lendario: #ffb300;
+    --mitico: #00e5c7;
+    --ancestral: #ff3860;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1100px 520px at 15% -10%, #3a2f12 0%, transparent 60%),
+      radial-gradient(900px 500px at 100% 0%, #1a2e33 0%, transparent 55%),
+      var(--fundo);
+    color:var(--texto);
+    font-family:'Inter', system-ui, sans-serif;
+    min-height:100vh;
+  }
+
+  ::selection{ background:var(--ouro); color:#1e1f29; }
+
+  a{ color: inherit; }
+
+  /* ---------- textura de fundo sutil (grão de pergaminho/couro) ---------- */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    pointer-events:none;
+    z-index:0;
+    opacity:.045;
+    background-image: repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 1px, transparent 3px);
+  }
+
+  .wrap{ position:relative; z-index:1; max-width:1280px; margin:0 auto; padding:0 28px 90px; }
+
+  /* ============================= HERO ============================= */
+  header.hero{
+    padding:64px 0 40px;
+    border-bottom:1px solid #ffffff14;
+    margin-bottom:36px;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    font-size:12px;
+    color:var(--ouro);
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{
+    content:""; width:26px; height:1px; background:var(--ouro); display:inline-block;
+  }
+  h1.title{
+    font-family:'Cinzel', serif;
+    font-weight:900;
+    font-size:clamp(38px, 6vw, 68px);
+    line-height:1.02;
+    margin:18px 0 10px;
+    letter-spacing:.01em;
+    background:linear-gradient(180deg, #ffffff 0%, #cfd1e0 62%, #8d90a8 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .title small{
+    display:block;
+    font-family:'Inter', sans-serif;
+    font-weight:600;
+    font-size:15px;
+    letter-spacing:.04em;
+    color:var(--texto-fraco);
+    -webkit-text-fill-color: var(--texto-fraco);
+    margin-top:10px;
+    text-transform:none;
+  }
+
+  .stats-row{
+    display:flex; flex-wrap:wrap; gap:14px;
+    margin-top:30px;
+  }
+  .stat{
+    background:var(--painel);
+    border:1px solid var(--borda);
+    border-radius:10px;
+    padding:12px 18px;
+    min-width:112px;
+  }
+  .stat .n{
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700;
+    font-size:24px;
+    color:var(--texto);
+    line-height:1;
+  }
+  .stat .l{
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--texto-fraco);
+    margin-top:6px;
+  }
+
+  /* rarity mini legend inside hero */
+  .legend{ display:flex; flex-wrap:wrap; gap:8px 16px; margin-top:24px; }
+  .legend .item{ display:flex; align-items:center; gap:7px; font-size:12px; color:var(--texto-fraco); font-family:'JetBrains Mono', monospace; }
+  .legend .dot{ width:9px; height:9px; border-radius:50%; box-shadow:0 0 8px currentColor; }
+
+  /* ============================= CONTROLES ============================= */
+  .controls{
+    position:sticky; top:0; z-index:20;
+    background:linear-gradient(180deg, var(--fundo) 78%, transparent);
+    padding:16px 0 18px;
+    margin-bottom:8px;
+  }
+  .controls-inner{
+    background:var(--painel);
+    border:1px solid var(--borda);
+    border-radius:14px;
+    padding:16px;
+    display:flex; flex-wrap:wrap; gap:14px; align-items:center;
+    box-shadow:0 10px 30px -12px #00000066;
+  }
+  .search-box{
+    position:relative; flex:1 1 240px; min-width:200px;
+  }
+  .search-box input{
+    width:100%;
+    background:var(--fundo-2);
+    border:1px solid var(--borda);
+    border-radius:9px;
+    padding:11px 14px 11px 38px;
+    color:var(--texto);
+    font-family:'Inter', sans-serif;
+    font-size:14px;
+    outline:none;
+    transition:border-color .15s ease;
+  }
+  .search-box input:focus{ border-color:var(--ouro); }
+  .search-box svg{ position:absolute; left:13px; top:50%; transform:translateY(-50%); opacity:.55; width:15px; height:15px; }
+
+  select{
+    background:var(--fundo-2);
+    border:1px solid var(--borda);
+    color:var(--texto);
+    border-radius:9px;
+    padding:11px 12px;
+    font-family:'Inter', sans-serif;
+    font-size:13px;
+    outline:none;
+    cursor:pointer;
+  }
+  select:focus{ border-color:var(--ouro); }
+
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{
+    --c: var(--texto-fraco);
+    font-family:'JetBrains Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:.03em;
+    padding:7px 12px;
+    border-radius:999px;
+    border:1px solid #ffffff22;
+    background:transparent;
+    color:var(--c);
+    cursor:pointer;
+    transition:all .15s ease;
+    user-select:none;
+  }
+  .chip:hover{ border-color:var(--c); color:var(--texto); }
+  .chip.active{ background:var(--c); color:#12131a; border-color:var(--c); font-weight:700; }
+
+  .result-count{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--texto-fraco);
+    margin: 6px 2px 22px;
+  }
+  .result-count b{ color:var(--texto); }
+
+  /* ============================= GRID DE CARTAS ============================= */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(178px, 1fr));
+    gap:16px;
+  }
+
+  .card{
+    --c: var(--comum);
+    position:relative;
+    background:linear-gradient(165deg, var(--painel) 0%, var(--fundo-2) 130%);
+    border:1px solid var(--borda);
+    border-radius:14px;
+    padding:16px 14px 14px;
+    cursor:pointer;
+    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    display:flex; flex-direction:column; align-items:center; text-align:center;
+    animation:riseIn .4s ease backwards;
+  }
+  @keyframes riseIn{ from{ opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+  .card::before{
+    content:"";
+    position:absolute; inset:0;
+    border-radius:14px;
+    padding:1px;
+    background:linear-gradient(160deg, var(--c), transparent 55%);
+    -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity:.85;
+    pointer-events:none;
+  }
+  .card:hover{
+    transform:translateY(-4px);
+    border-color:var(--c);
+    box-shadow:0 14px 32px -14px #000a, 0 0 0 1px var(--c) inset;
+  }
+  .card.glow:hover{ box-shadow:0 14px 32px -14px #000a, 0 0 26px -4px var(--c), 0 0 0 1px var(--c) inset; }
+
+  .card .rar-tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size:9.5px;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    color:var(--c);
+    font-weight:700;
+    margin-bottom:8px;
+  }
+  .card .icone{
+    font-size:40px;
+    line-height:1;
+    filter:drop-shadow(0 2px 6px #00000066);
+    margin-bottom:10px;
+  }
+  .card .nome{
+    font-family:'Cinzel', serif;
+    font-weight:700;
+    font-size:14.5px;
+    line-height:1.25;
+    color:var(--texto);
+    min-height:36px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .card .tipo{
+    font-size:11px;
+    color:var(--texto-fraco);
+    text-transform:capitalize;
+    margin-top:2px;
+  }
+  .card .divider{ width:36px; height:1px; background:#ffffff22; margin:10px 0; }
+  .card .footer-row{
+    width:100%;
+    display:flex; align-items:center; justify-content:space-between;
+    font-family:'JetBrains Mono', monospace;
+  }
+  .card .atk{
+    font-weight:700; font-size:15px; color:var(--texto);
+    display:flex; align-items:center; gap:4px;
+  }
+  .card .atk svg{ width:12px; height:12px; opacity:.8; }
+  .card .efeito-badge{
+    font-size:9.5px;
+    padding:3px 7px;
+    border-radius:6px;
+    background:#ffffff12;
+    color:var(--texto-fraco);
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  }
+  .card.tem-efeito .efeito-badge{ color:var(--c); background:color-mix(in srgb, var(--c) 18%, transparent); }
+
+  .empty-state{
+    grid-column:1/-1;
+    text-align:center;
+    padding:70px 20px;
+    color:var(--texto-fraco);
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+  }
+
+  /* ============================= MODAL ============================= */
+  .overlay{
+    position:fixed; inset:0; z-index:100;
+    background:#0b0c11cc;
+    backdrop-filter:blur(6px);
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+    opacity:0; pointer-events:none;
+    transition:opacity .18s ease;
+  }
+  .overlay.open{ opacity:1; pointer-events:auto; }
+
+  .modal{
+    --c: var(--comum);
+    width:min(420px, 100%);
+    background:linear-gradient(170deg, var(--painel) 0%, var(--fundo-2) 140%);
+    border:1px solid var(--c);
+    border-radius:18px;
+    padding:30px 26px 26px;
+    position:relative;
+    box-shadow:0 30px 80px -20px #000000aa, 0 0 60px -18px var(--c);
+    transform:translateY(14px) scale(.97);
+    transition:transform .2s ease;
+  }
+  .overlay.open .modal{ transform:translateY(0) scale(1); }
+
+  .modal .fechar{
+    position:absolute; top:16px; right:16px;
+    width:30px; height:30px; border-radius:50%;
+    background:#ffffff10; border:1px solid #ffffff22;
+    color:var(--texto-fraco);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; font-size:15px; line-height:1;
+    transition:all .15s ease;
+  }
+  .modal .fechar:hover{ background:#ffffff22; color:var(--texto); }
+
+  .modal .rar-tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--c); font-weight:700;
+  }
+  .modal .icone-grande{
+    font-size:64px; text-align:center; margin:14px 0 6px;
+    filter:drop-shadow(0 4px 10px #00000077);
+  }
+  .modal .nome-grande{
+    font-family:'Cinzel', serif; font-weight:700; font-size:23px;
+    text-align:center; margin-bottom:4px;
+  }
+  .modal .tipo-grande{
+    text-align:center; font-size:12.5px; color:var(--texto-fraco);
+    text-transform:capitalize; margin-bottom:20px;
+  }
+
+  .modal .stat-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:18px;
+  }
+  .modal .stat-box{
+    background:var(--fundo-2); border:1px solid var(--borda); border-radius:10px;
+    padding:12px; text-align:center;
+  }
+  .modal .stat-box .v{ font-family:'JetBrains Mono', monospace; font-weight:700; font-size:19px; }
+  .modal .stat-box .k{ font-size:10.5px; color:var(--texto-fraco); text-transform:uppercase; letter-spacing:.06em; margin-top:4px; }
+
+  .modal .efeito-box{
+    background:color-mix(in srgb, var(--c) 12%, var(--fundo-2));
+    border:1px solid color-mix(in srgb, var(--c) 45%, var(--borda));
+    border-radius:10px;
+    padding:14px 15px;
+  }
+  .modal .efeito-box .titulo{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--c); font-weight:700; margin-bottom:6px;
+  }
+  .modal .efeito-box .texto{ font-size:13.5px; line-height:1.5; color:var(--texto); }
+
+  .modal .id-tag{
+    margin-top:16px; text-align:center;
+    font-family:'JetBrains Mono', monospace; font-size:10.5px; color:var(--texto-fraco); opacity:.6;
+  }
+
+  footer{
+    text-align:center; padding:50px 20px 10px;
+    color:var(--texto-fraco); font-size:12px;
+    font-family:'JetBrains Mono', monospace;
+    position:relative; z-index:1;
+  }
+
+  @media (max-width:560px){
+    header.hero{ padding:44px 0 30px; }
+    .grid{ grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001s !important; transition-duration:0.001s !important; }
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">CardBot RPG · data/cards.json</div>
+    <h1 class="title">Catálogo de Cartas
+      <small>Todo item que pode cair na masmorra, cartas, raridade, dano e efeito — em um só lugar.</small>
+    </h1>
+
+    <div class="stats-row" id="statsRow"></div>
+
+    <div class="legend" id="legend"></div>
+  </header>
+
+  <div class="controls">
+    <div class="controls-inner">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="busca" placeholder="Buscar por nome, tipo ou efeito…" autocomplete="off">
+      </div>
+      <select id="ordenar">
+        <option value="raridade">Ordenar: Raridade</option>
+        <option value="ataque">Ordenar: Ataque (maior)</option>
+        <option value="nome">Ordenar: Nome (A–Z)</option>
+        <option value="tipo">Ordenar: Tipo</option>
+      </select>
+      <select id="tipoFiltro">
+        <option value="">Todos os tipos</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="chips" id="chipsRaridade"></div>
+  <div class="result-count" id="resultCount"></div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>Visualizador gerado a partir de data/cards.json — não altera nada do bot, é só leitura.</footer>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script id="cards-data" type="application/json">
+[{"id": "comum_espada", "nome": "Espada Enferrujada", "raridade": "Comum", "ataque": 6, "efeito": "nenhum", "tipo": "espada", "emoji": "🗡️"}, {"id": "comum_adaga", "nome": "Adaga Rápida", "raridade": "Comum", "ataque": 4, "efeito": "critico", "valor": 0.25, "tipo": "adaga", "emoji": "🔪"}, {"id": "comum_cura", "nome": "Poção Simples", "raridade": "Comum", "ataque": 2, "efeito": "cura", "valor": 5, "tipo": "pocao", "emoji": "🧪"}, {"id": "comum_escudo", "nome": "Escudo de Madeira", "raridade": "Comum", "ataque": 1, "efeito": "escudo", "valor": 6, "tipo": "escudo", "emoji": "🛡️"}, {"id": "comum_machado", "nome": "Machado Cego", "raridade": "Comum", "ataque": 7, "efeito": "critico", "valor": 0.15, "tipo": "machado", "emoji": "🪓"}, {"id": "comum_cajado", "nome": "Cajado Rachado", "raridade": "Comum", "ataque": 3, "efeito": "cura", "valor": 4, "tipo": "cajado", "emoji": "🪄"}, {"id": "comum_funda", "nome": "Funda de Couro", "raridade": "Comum", "ataque": 5, "efeito": "nenhum", "tipo": "arco", "emoji": "🏹"}, {"id": "comum_bandagem", "nome": "Bandagem Simples", "raridade": "Comum", "ataque": 1, "efeito": "cura", "valor": 6, "tipo": "pocao", "emoji": "🩹"}, {"id": "comum_broquel_couro", "nome": "Broquel de Couro", "raridade": "Comum", "ataque": 2, "efeito": "escudo", "valor": 7, "tipo": "escudo", "emoji": "🛡️"}, {"id": "incomum_ervas", "nome": "Ervas Medicinais", "raridade": "Incomum", "ataque": 3, "efeito": "cura", "valor": 10, "tipo": "pocao", "emoji": "🌿"}, {"id": "incomum_parede", "nome": "Parede de Gelo", "raridade": "Incomum", "ataque": 2, "efeito": "escudo", "valor": 12, "tipo": "escudo", "emoji": "🧊"}, {"id": "incomum_lamina", "nome": "Lâmina Curva", "raridade": "Incomum", "ataque": 9, "efeito": "roubo", "valor": 0.2, "tipo": "adaga", "emoji": "🗡️"}, {"id": "incomum_martelo", "nome": "Martelo de Ferreiro", "raridade": "Incomum", "ataque": 11, "efeito": "escudo", "valor": 6, "tipo": "martelo", "emoji": "🔨"}, {"id": "incomum_arco", "nome": "Arco Curto", "raridade": "Incomum", "ataque": 8, "efeito": "critico", "valor": 0.2, "tipo": "arco", "emoji": "🏹"}, {"id": "incomum_frasco", "nome": "Frasco Revigorante", "raridade": "Incomum", "ataque": 4, "efeito": "cura", "valor": 9, "tipo": "pocao", "emoji": "🧪"}, {"id": "incomum_broquel", "nome": "Broquel de Bronze", "raridade": "Incomum", "ataque": 3, "efeito": "escudo", "valor": 10, "tipo": "escudo", "emoji": "🛡️"}, {"id": "raro_lamina", "nome": "Lâmina Sombria", "raridade": "Raro", "ataque": 10, "efeito": "roubo", "valor": 0.5, "tipo": "adaga", "emoji": "🌑"}, {"id": "raro_martelo", "nome": "Martelo de Guerra", "raridade": "Raro", "ataque": 13, "efeito": "critico", "valor": 0.18, "tipo": "martelo", "emoji": "🔨"}, {"id": "raro_cajado", "nome": "Cajado Curativo", "raridade": "Raro", "ataque": 5, "efeito": "cura", "valor": 12, "tipo": "cajado", "emoji": "✨"}, {"id": "raro_broquel", "nome": "Broquel de Aço", "raridade": "Raro", "ataque": 4, "efeito": "escudo", "valor": 14, "tipo": "escudo", "emoji": "🛡️"}, {"id": "raro_lanca", "nome": "Lança Farpada", "raridade": "Raro", "ataque": 14, "efeito": "roubo", "valor": 0.25, "tipo": "lanca", "emoji": "🔱"}, {"id": "raro_arco", "nome": "Arco Élfico", "raridade": "Raro", "ataque": 11, "efeito": "critico", "valor": 0.3, "tipo": "arco", "emoji": "🏹"}, {"id": "raro_elixir", "nome": "Elixir Sagrado", "raridade": "Raro", "ataque": 6, "efeito": "cura", "valor": 16, "tipo": "pocao", "emoji": "💧"}, {"id": "raro_torre", "nome": "Escudo Torre", "raridade": "Raro", "ataque": 5, "efeito": "escudo", "valor": 18, "tipo": "escudo", "emoji": "🏰"}, {"id": "epico_foice", "nome": "Foice Amaldiçoada", "raridade": "Épico", "ataque": 18, "efeito": "roubo", "valor": 0.4, "tipo": "foice", "emoji": "⚰️"}, {"id": "epico_lanca", "nome": "Lança do Trovão", "raridade": "Épico", "ataque": 20, "efeito": "critico", "valor": 0.3, "tipo": "lanca", "emoji": "⚡"}, {"id": "epico_totem", "nome": "Totem Ancestral", "raridade": "Épico", "ataque": 8, "efeito": "cura", "valor": 20, "tipo": "orbe", "emoji": "🗿"}, {"id": "epico_grimorio", "nome": "Grimório Proibido", "raridade": "Épico", "ataque": 12, "efeito": "roubo", "valor": 0.35, "tipo": "livro", "emoji": "📕"}, {"id": "epico_coroa", "nome": "Coroa Partida", "raridade": "Épico", "ataque": 16, "efeito": "escudo", "valor": 18, "tipo": "coroa", "emoji": "👑"}, {"id": "epico_fonte", "nome": "Fonte da Vida", "raridade": "Épico", "ataque": 10, "efeito": "cura", "valor": 24, "tipo": "orbe", "emoji": "⛲"}, {"id": "epico_bastiao", "nome": "Bastião Rúnico", "raridade": "Épico", "ataque": 9, "efeito": "escudo", "valor": 26, "tipo": "escudo", "emoji": "🔰"}, {"id": "lendario_excalibur", "nome": "Excalibur", "raridade": "Lendário", "ataque": 30, "efeito": "critico", "valor": 0.35, "tipo": "espada", "emoji": "⚔️"}, {"id": "lendario_fenix", "nome": "Pena da Fênix", "raridade": "Lendário", "ataque": 14, "efeito": "cura", "valor": 35, "tipo": "pocao", "emoji": "🔥"}, {"id": "lendario_vazio", "nome": "Lâmina do Vazio", "raridade": "Lendário", "ataque": 26, "efeito": "roubo", "valor": 0.6, "tipo": "foice", "emoji": "🌌"}, {"id": "lendario_tridente", "nome": "Tridente do Abismo", "raridade": "Lendário", "ataque": 28, "efeito": "roubo", "valor": 0.35, "tipo": "lanca", "emoji": "🔱"}, {"id": "lendario_orbe", "nome": "Orbe Estelar", "raridade": "Lendário", "ataque": 22, "efeito": "escudo", "valor": 24, "tipo": "orbe", "emoji": "🔮"}, {"id": "lendario_calice", "nome": "Cálice Celestial", "raridade": "Lendário", "ataque": 16, "efeito": "cura", "valor": 40, "tipo": "pocao", "emoji": "🏆"}, {"id": "lendario_bastiao", "nome": "Bastião do Titã", "raridade": "Lendário", "ataque": 18, "efeito": "escudo", "valor": 38, "tipo": "escudo", "emoji": "🗿"}, {"id": "mitico_apocalipse", "nome": "Lâmina do Apocalipse", "raridade": "Mítico", "ataque": 38, "efeito": "critico", "valor": 0.4, "tipo": "espada", "emoji": "🌠"}, {"id": "mitico_devorador", "nome": "Cajado Devorador", "raridade": "Mítico", "ataque": 24, "efeito": "roubo", "valor": 0.65, "tipo": "cajado", "emoji": "🕳️"}, {"id": "mitico_aegis", "nome": "Aegis Celestial", "raridade": "Mítico", "ataque": 20, "efeito": "escudo", "valor": 32, "tipo": "escudo", "emoji": "🛡️"}, {"id": "mitico_grimorio", "nome": "Grimório do Vazio", "raridade": "Mítico", "ataque": 30, "efeito": "cura", "valor": 45, "tipo": "livro", "emoji": "📘"}, {"id": "mitico_santuario", "nome": "Santuário Eterno", "raridade": "Mítico", "ataque": 20, "efeito": "escudo", "valor": 42, "tipo": "escudo", "emoji": "⛩️"}, {"id": "ancestral_genesis", "nome": "Lâmina Gênesis", "raridade": "Ancestral", "ataque": 55, "efeito": "critico", "valor": 0.45, "tipo": "espada", "emoji": "☄️"}, {"id": "ancestral_juizo", "nome": "Cetro do Juízo Final", "raridade": "Ancestral", "ataque": 45, "efeito": "roubo", "valor": 0.7, "tipo": "cajado", "emoji": "⚡"}, {"id": "ancestral_coroa", "nome": "Coroa do Primeiro Rei", "raridade": "Ancestral", "ataque": 40, "efeito": "escudo", "valor": 50, "tipo": "coroa", "emoji": "👑"}, {"id": "ancestral_arvore", "nome": "Seiva da Árvore-Mãe", "raridade": "Ancestral", "ataque": 35, "efeito": "cura", "valor": 60, "tipo": "pocao", "emoji": "🌳"}, {"id": "comum_inov_punhal_do_verdugo", "nome": "Punhal do Verdugo", "raridade": "Comum", "ataque": 4, "efeito": "execucao", "valor": 0.15, "tipo": "adaga", "emoji": "🔪"}, {"id": "comum_inov_machadinha_rancorosa", "nome": "Machadinha Rancorosa", "raridade": "Comum", "ataque": 5, "efeito": "vinganca", "valor": 0.3, "tipo": "machado", "emoji": "🪓"}, {"id": "comum_inov_moeda_do_destino", "nome": "Moeda do Destino", "raridade": "Comum", "ataque": 3, "efeito": "sorte", "valor": 4, "tipo": "orbe", "emoji": "🎲"}, {"id": "comum_inov_forcado_faminto", "nome": "Forcado Faminto", "raridade": "Comum", "ataque": 4, "efeito": "investida_dupla", "valor": 0.4, "tipo": "lanca", "emoji": "🔱"}, {"id": "comum_inov_cha_das_curandeiras", "nome": "Chá das Curandeiras", "raridade": "Comum", "ataque": 2, "efeito": "cura_percentual", "valor": 0.08, "tipo": "pocao", "emoji": "🍵"}, {"id": "comum_inov_lamina_do_encurralado", "nome": "Lâmina do Encurralado", "raridade": "Comum", "ataque": 4, "efeito": "ultimo_suspiro", "valor": 0.2, "tipo": "espada", "emoji": "🗡️"}, {"id": "incomum_inov_foice_do_agouro", "nome": "Foice do Agouro", "raridade": "Incomum", "ataque": 7, "efeito": "ceifador", "valor": 0.4, "tipo": "foice", "emoji": "🌾"}, {"id": "incomum_inov_adaga_sanguessuga", "nome": "Adaga Sanguessuga", "raridade": "Incomum", "ataque": 8, "efeito": "roubo_blindado", "valor": 0.4, "tipo": "adaga", "emoji": "🩸"}, {"id": "incomum_inov_cajado_do_martir", "nome": "Cajado do Mártir", "raridade": "Incomum", "ataque": 6, "efeito": "sacrificio", "valor": 0.1, "tipo": "cajado", "emoji": "💀"}, {"id": "incomum_inov_flecha_cacadora", "nome": "Flecha Caçadora", "raridade": "Incomum", "ataque": 7, "efeito": "execucao", "valor": 0.18, "tipo": "arco", "emoji": "🏹"}, {"id": "incomum_inov_dado_runico", "nome": "Dado Rúnico", "raridade": "Incomum", "ataque": 5, "efeito": "sorte", "valor": 7, "tipo": "orbe", "emoji": "🎲"}, {"id": "incomum_inov_tridente_bifido", "nome": "Tridente Bífido", "raridade": "Incomum", "ataque": 6, "efeito": "investida_dupla", "valor": 0.5, "tipo": "lanca", "emoji": "🔱"}, {"id": "raro_inov_furia_do_encurralado", "nome": "Fúria do Encurralado", "raridade": "Raro", "ataque": 9, "efeito": "vinganca", "valor": 0.55, "tipo": "machado", "emoji": "🪓"}, {"id": "raro_inov_marreta_perfurante", "nome": "Marreta Perfurante", "raridade": "Raro", "ataque": 10, "efeito": "brecha", "valor": 1, "tipo": "martelo", "emoji": "🔨"}, {"id": "raro_inov_elixir_vital", "nome": "Elixir Vital", "raridade": "Raro", "ataque": 5, "efeito": "cura_percentual", "valor": 0.13, "tipo": "pocao", "emoji": "🧪"}, {"id": "raro_inov_foice_ceifadora", "nome": "Foice Ceifadora", "raridade": "Raro", "ataque": 8, "efeito": "ceifador", "valor": 0.55, "tipo": "foice", "emoji": "🌾"}, {"id": "raro_inov_espada_da_redencao", "nome": "Espada da Redenção", "raridade": "Raro", "ataque": 9, "efeito": "ultimo_suspiro", "valor": 0.25, "tipo": "espada", "emoji": "⚔️"}, {"id": "raro_inov_orbe_do_sacrificio", "nome": "Orbe do Sacrifício", "raridade": "Raro", "ataque": 11, "efeito": "sacrificio", "valor": 0.12, "tipo": "orbe", "emoji": "💀"}, {"id": "epico_inov_arco_do_golpe_de_misericordia", "nome": "Arco do Golpe de Misericórdia", "raridade": "Épico", "ataque": 13, "efeito": "execucao", "valor": 0.26, "tipo": "arco", "emoji": "🏹"}, {"id": "epico_inov_presas_da_viuva_negra", "nome": "Presas da Viúva Negra", "raridade": "Épico", "ataque": 14, "efeito": "roubo_blindado", "valor": 0.6, "tipo": "adaga", "emoji": "🩸"}, {"id": "epico_inov_lanca_bifida_do_caos", "nome": "Lança Bífida do Caos", "raridade": "Épico", "ataque": 12, "efeito": "investida_dupla", "valor": 0.6, "tipo": "lanca", "emoji": "🔱"}, {"id": "epico_inov_estilhaca_escudos", "nome": "Estilhaça-Escudos", "raridade": "Épico", "ataque": 15, "efeito": "brecha", "valor": 1, "tipo": "martelo", "emoji": "🔨"}, {"id": "epico_inov_orbe_do_caos", "nome": "Orbe do Caos", "raridade": "Épico", "ataque": 10, "efeito": "sorte", "valor": 15, "tipo": "orbe", "emoji": "🎲"}, {"id": "epico_inov_machado_da_ira_contida", "nome": "Machado da Ira Contida", "raridade": "Épico", "ataque": 13, "efeito": "vinganca", "valor": 0.75, "tipo": "machado", "emoji": "🪓"}, {"id": "lendario_inov_foice_do_ceifador_real", "nome": "Foice do Ceifador Real", "raridade": "Lendário", "ataque": 18, "efeito": "ceifador", "valor": 0.9, "tipo": "foice", "emoji": "🌾"}, {"id": "lendario_inov_cajado_da_ultima_prece", "nome": "Cajado da Última Prece", "raridade": "Lendário", "ataque": 20, "efeito": "sacrificio", "valor": 0.16, "tipo": "cajado", "emoji": "💀"}, {"id": "lendario_inov_nectar_da_ressurreicao", "nome": "Néctar da Ressurreição", "raridade": "Lendário", "ataque": 14, "efeito": "cura_percentual", "valor": 0.22, "tipo": "pocao", "emoji": "🧪"}, {"id": "lendario_inov_lamina_do_ultimo_folego", "nome": "Lâmina do Último Fôlego", "raridade": "Lendário", "ataque": 19, "efeito": "ultimo_suspiro", "valor": 0.3, "tipo": "espada", "emoji": "⚔️"}, {"id": "lendario_inov_flecha_do_executor", "nome": "Flecha do Executor", "raridade": "Lendário", "ataque": 20, "efeito": "execucao", "valor": 0.3, "tipo": "arco", "emoji": "🏹"}, {"id": "lendario_inov_punho_estilhacador", "nome": "Punho Estilhaçador", "raridade": "Lendário", "ataque": 22, "efeito": "brecha", "valor": 1, "tipo": "martelo", "emoji": "🔨"}, {"id": "mitico_inov_furia_ancestral", "nome": "Fúria Ancestral", "raridade": "Mítico", "ataque": 24, "efeito": "vinganca", "valor": 1.15, "tipo": "machado", "emoji": "🪓"}, {"id": "mitico_inov_presas_do_vazio", "nome": "Presas do Vazio", "raridade": "Mítico", "ataque": 26, "efeito": "roubo_blindado", "valor": 0.8, "tipo": "adaga", "emoji": "🩸"}, {"id": "mitico_inov_lanca_das_mil_pontas", "nome": "Lança das Mil Pontas", "raridade": "Mítico", "ataque": 22, "efeito": "investida_dupla", "valor": 0.75, "tipo": "lanca", "emoji": "🔱"}, {"id": "mitico_inov_orbe_do_caos_absoluto", "nome": "Orbe do Caos Absoluto", "raridade": "Mítico", "ataque": 20, "efeito": "sorte", "valor": 30, "tipo": "orbe", "emoji": "🎲"}, {"id": "mitico_inov_foice_da_colheita_final", "nome": "Foice da Colheita Final", "raridade": "Mítico", "ataque": 25, "efeito": "ceifador", "valor": 1.1, "tipo": "foice", "emoji": "🌾"}, {"id": "mitico_inov_cajado_do_preco_de_sangue", "nome": "Cajado do Preço de Sangue", "raridade": "Mítico", "ataque": 28, "efeito": "sacrificio", "valor": 0.18, "tipo": "cajado", "emoji": "💀"}, {"id": "ancestral_inov_arco_do_juizo", "nome": "Arco do Juízo", "raridade": "Ancestral", "ataque": 34, "efeito": "execucao", "valor": 0.38, "tipo": "arco", "emoji": "🏹"}, {"id": "ancestral_inov_lamina_do_fim_dos_tempos", "nome": "Lâmina do Fim dos Tempos", "raridade": "Ancestral", "ataque": 36, "efeito": "ultimo_suspiro", "valor": 0.35, "tipo": "espada", "emoji": "⚔️"}, {"id": "ancestral_inov_calice_da_ressurreicao_eterna", "nome": "Cálice da Ressurreição Eterna", "raridade": "Ancestral", "ataque": 30, "efeito": "cura_percentual", "valor": 0.35, "tipo": "pocao", "emoji": "🧪"}, {"id": "ancestral_inov_marreta_que_quebra_mundos", "nome": "Marreta que Quebra Mundos", "raridade": "Ancestral", "ataque": 38, "efeito": "brecha", "valor": 1, "tipo": "martelo", "emoji": "🔨"}, {"id": "ancestral_inov_machado_da_vinganca_eterna", "nome": "Machado da Vingança Eterna", "raridade": "Ancestral", "ataque": 35, "efeito": "vinganca", "valor": 1.4, "tipo": "machado", "emoji": "🪓"}, {"id": "ancestral_inov_lanca_do_dragao_bicefalo", "nome": "Lança do Dragão Bicéfalo", "raridade": "Ancestral", "ataque": 33, "efeito": "investida_dupla", "valor": 0.85, "tipo": "lanca", "emoji": "🔱"}]
+</script>
+<script>
+(function () {
+  'use strict';
+
+  const CARDS = JSON.parse(document.getElementById('cards-data').textContent);
+
+  const RARIDADE_ORDEM = ['Ancestral', 'Mítico', 'Lendário', 'Épico', 'Raro', 'Incomum', 'Comum'];
+  const RARIDADE_VAR = {
+    'Comum': '--comum', 'Incomum': '--incomum', 'Raro': '--raro',
+    'Épico': '--epico', 'Lendário': '--lendario', 'Mítico': '--mitico', 'Ancestral': '--ancestral',
+  };
+  const RARIDADE_COM_GLOW = new Set(['Épico', 'Lendário', 'Mítico', 'Ancestral']);
+
+  const TIPO_LABEL = {
+    espada: 'Espada', adaga: 'Adaga', pocao: 'Poção', escudo: 'Escudo', machado: 'Machado',
+    cajado: 'Cajado', arco: 'Arco', martelo: 'Martelo', lanca: 'Lança', foice: 'Foice',
+    orbe: 'Orbe', livro: 'Livro', coroa: 'Coroa',
+  };
+
+  // Descrições fiéis à lógica real de game/battle.js — inclui os multiplicadores
+  // exatos usados no cálculo de dano (EXECUCAO_MULT=2.2, SACRIFICIO_MULT=2.4,
+  // ULTIMO_SUSPIRO_MULT=2.6) pra bater 100% com o que a carta faz em jogo.
+  function pct(v) { return `${Math.round(v * 100)}%`; }
+
+  function descreverEfeito(efeito, valor) {
+    switch (efeito) {
+      case 'nenhum':
+        return 'Sem efeito especial — conta só com o dano bruto de ataque.';
+      case 'critico':
+        return `${pct(valor)} de chance de acertar um golpe crítico, dobrando o dano causado.`;
+      case 'cura':
+        return `Cura ${valor} de vida ao ser jogada.`;
+      case 'roubo':
+        return `Rouba ${pct(valor)} do dano causado como vida (vida vampírica).`;
+      case 'escudo':
+        return `Gera ${valor} pontos de escudo.`;
+      case 'execucao':
+        return `Se o alvo estiver com ${pct(valor)} de vida ou menos, o golpe causa 2,2× de dano — execução.`;
+      case 'ceifador':
+        return `Quanto menos vida o alvo tiver, mais dano bônus — até +${pct(valor)} de dano extra com o alvo à beira da morte.`;
+      case 'vinganca':
+        return `Quanto mais machucado você estiver, mais forte o golpe — até +${pct(valor)} de dano extra com sua vida no limite.`;
+      case 'ultimo_suspiro':
+        return `Se sua vida estiver em ${pct(valor)} ou menos, o golpe sai multiplicado em 2,6× — a virada dramática.`;
+      case 'sacrificio':
+        return `Sacrifica ${pct(valor)} da sua vida atual para causar 2,4× de dano.`;
+      case 'sorte':
+        return `Sorteia um bônus aleatório a cada uso: crítico (dobro do dano), cura de ${valor} ou escudo de ${valor}.`;
+      case 'cura_percentual':
+        return `Cura ${pct(valor)} do seu HP máximo — escala com o personagem.`;
+      case 'roubo_blindado':
+        return `Rouba ${pct(valor)} do dano causado: metade vira cura, metade vira escudo.`;
+      case 'brecha':
+        return 'Ignora completamente o escudo do alvo nesse golpe.';
+      case 'investida_dupla':
+        return `Acerta duas vezes na mesma jogada — o segundo golpe causa ${pct(valor)} do dano do primeiro.`;
+      default:
+        return 'Efeito especial.';
+    }
+  }
+
+  const EFEITO_LABEL = {
+    nenhum: 'Sem efeito', critico: 'Crítico', cura: 'Cura', roubo: 'Roubo de vida', escudo: 'Escudo',
+    execucao: 'Execução', ceifador: 'Ceifador', vinganca: 'Vingança', ultimo_suspiro: 'Último suspiro',
+    sacrificio: 'Sacrifício', sorte: 'Sorte', cura_percentual: 'Cura %', roubo_blindado: 'Roubo blindado',
+    brecha: 'Brecha', investida_dupla: 'Investida dupla',
+  };
+
+  // ---------------------------------------------------------- estado / DOM --
+  const elGrid = document.getElementById('grid');
+  const elBusca = document.getElementById('busca');
+  const elOrdenar = document.getElementById('ordenar');
+  const elTipoFiltro = document.getElementById('tipoFiltro');
+  const elChips = document.getElementById('chipsRaridade');
+  const elResultCount = document.getElementById('resultCount');
+  const elStatsRow = document.getElementById('statsRow');
+  const elLegend = document.getElementById('legend');
+  const elOverlay = document.getElementById('overlay');
+  const elModal = document.getElementById('modal');
+
+  const estado = { busca: '', raridade: null, tipo: '', ordenar: 'raridade' };
+
+  // ------------------------------------------------------------- header UI --
+  function montarStats() {
+    const total = CARDS.length;
+    const tipos = new Set(CARDS.map(c => c.tipo)).size;
+    const comEfeito = CARDS.filter(c => c.efeito !== 'nenhum').length;
+    const maiorAtaque = Math.max(...CARDS.map(c => c.ataque));
+
+    const linhas = [
+      [total, 'Cartas'], [7, 'Raridades'], [tipos, 'Tipos'], [comEfeito, 'Com efeito'], [maiorAtaque, 'Maior ataque'],
+    ];
+    elStatsRow.innerHTML = linhas.map(([n, l]) => `
+      <div class="stat"><div class="n">${n}</div><div class="l">${l}</div></div>
+    `).join('');
+
+    elLegend.innerHTML = RARIDADE_ORDEM.map(r => `
+      <span class="item"><span class="dot" style="background:var(${RARIDADE_VAR[r]}); color:var(${RARIDADE_VAR[r]})"></span>${r}</span>
+    `).join('');
+  }
+
+  function montarChips() {
+    const contagem = {};
+    CARDS.forEach(c => { contagem[c.raridade] = (contagem[c.raridade] || 0) + 1; });
+
+    const todos = document.createElement('button');
+    todos.className = 'chip active';
+    todos.textContent = `Todas (${CARDS.length})`;
+    todos.style.setProperty('--c', '#f2f2f5');
+    todos.addEventListener('click', () => { estado.raridade = null; render(); atualizarChipsAtivos(); });
+    elChips.appendChild(todos);
+
+    RARIDADE_ORDEM.forEach(r => {
+      const btn = document.createElement('button');
+      btn.className = 'chip';
+      btn.dataset.raridade = r;
+      btn.style.setProperty('--c', `var(${RARIDADE_VAR[r]})`);
+      btn.textContent = `${r} (${contagem[r] || 0})`;
+      btn.addEventListener('click', () => {
+        estado.raridade = (estado.raridade === r) ? null : r;
+        render();
+        atualizarChipsAtivos();
+      });
+      elChips.appendChild(btn);
+    });
+  }
+
+  function atualizarChipsAtivos() {
+    [...elChips.children].forEach(chip => {
+      const r = chip.dataset.raridade;
+      const ativo = (r === undefined) ? estado.raridade === null : estado.raridade === r;
+      chip.classList.toggle('active', ativo);
+    });
+  }
+
+  function montarFiltroTipo() {
+    const tipos = [...new Set(CARDS.map(c => c.tipo))].sort((a, b) =>
+      (TIPO_LABEL[a] || a).localeCompare(TIPO_LABEL[b] || b, 'pt-BR')
+    );
+    tipos.forEach(t => {
+      const opt = document.createElement('option');
+      opt.value = t;
+      opt.textContent = TIPO_LABEL[t] || t;
+      elTipoFiltro.appendChild(opt);
+    });
+  }
+
+  // ---------------------------------------------------------------- filtro --
+  function normalizar(str) {
+    return (str || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+
+  function filtrarEOrdenar() {
+    const termo = normalizar(estado.busca);
+    let lista = CARDS.filter(c => {
+      if (estado.raridade && c.raridade !== estado.raridade) return false;
+      if (estado.tipo && c.tipo !== estado.tipo) return false;
+      if (termo) {
+        const alvo = normalizar(`${c.nome} ${TIPO_LABEL[c.tipo] || c.tipo} ${EFEITO_LABEL[c.efeito] || c.efeito}`);
+        if (!alvo.includes(termo)) return false;
+      }
+      return true;
+    });
+
+    lista.sort((a, b) => {
+      if (estado.ordenar === 'ataque') return b.ataque - a.ataque;
+      if (estado.ordenar === 'nome') return a.nome.localeCompare(b.nome, 'pt-BR');
+      if (estado.ordenar === 'tipo') return (TIPO_LABEL[a.tipo] || a.tipo).localeCompare(TIPO_LABEL[b.tipo] || b.tipo, 'pt-BR');
+      // raridade (padrão): da mais rara pra mais comum, e por ataque dentro da raridade
+      const diff = RARIDADE_ORDEM.indexOf(a.raridade) - RARIDADE_ORDEM.indexOf(b.raridade);
+      return diff !== 0 ? diff : b.ataque - a.ataque;
+    });
+
+    return lista;
+  }
+
+  // ----------------------------------------------------------------- render --
+  function cartaHTML(c, i) {
+    const varRar = RARIDADE_VAR[c.raridade] || '--comum';
+    const glow = RARIDADE_COM_GLOW.has(c.raridade) ? ' glow' : '';
+    const temEfeito = c.efeito !== 'nenhum' ? ' tem-efeito' : '';
+    const efeitoLabel = EFEITO_LABEL[c.efeito] || c.efeito;
+    return `
+      <div class="card${glow}${temEfeito}" style="--c:var(${varRar}); animation-delay:${Math.min(i * 18, 260)}ms" data-id="${c.id}">
+        <div class="rar-tag">${c.raridade}</div>
+        <div class="icone">${c.emoji || '❔'}</div>
+        <div class="nome">${c.nome}</div>
+        <div class="tipo">${TIPO_LABEL[c.tipo] || c.tipo}</div>
+        <div class="divider"></div>
+        <div class="footer-row">
+          <span class="atk"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.92 2.68a1 1 0 00-1.32.15L2.83 5.6a1 1 0 00.15 1.32l1.06 1.06L2.7 9.32a1 1 0 000 1.41l10.57 10.57a1 1 0 001.41 0l1.34-1.34 1.06 1.06a1 1 0 001.32-.15l2.77-2.77a1 1 0 00-.15-1.32L13.98 8.15l1.34-1.34a1 1 0 000-1.41L4.75 4.83zM12 10l2 2-1.4 1.4-2-2z"/></svg>${c.ataque}</span>
+          <span class="efeito-badge">${efeitoLabel}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function render() {
+    const lista = filtrarEOrdenar();
+    elResultCount.innerHTML = `<b>${lista.length}</b> de ${CARDS.length} cartas`;
+
+    if (!lista.length) {
+      elGrid.innerHTML = `<div class="empty-state">Nenhuma carta encontrada com esses filtros.<br>Tenta limpar a busca ou trocar de raridade.</div>`;
+      return;
+    }
+    elGrid.innerHTML = lista.map(cartaHTML).join('');
+
+    elGrid.querySelectorAll('.card').forEach(el => {
+      el.addEventListener('click', () => abrirModal(el.dataset.id));
+    });
+  }
+
+  // ------------------------------------------------------------------ modal --
+  function abrirModal(id) {
+    const c = CARDS.find(x => x.id === id);
+    if (!c) return;
+    const varRar = RARIDADE_VAR[c.raridade] || '--comum';
+    const efeitoLabel = EFEITO_LABEL[c.efeito] || c.efeito;
+    const descricao = descreverEfeito(c.efeito, c.valor);
+
+    elModal.style.setProperty('--c', `var(${varRar})`);
+    elModal.innerHTML = `
+      <div class="fechar" id="fecharModal">✕</div>
+      <div class="rar-tag">${c.raridade}</div>
+      <div class="icone-grande">${c.emoji || '❔'}</div>
+      <div class="nome-grande">${c.nome}</div>
+      <div class="tipo-grande">${TIPO_LABEL[c.tipo] || c.tipo}</div>
+      <div class="stat-grid">
+        <div class="stat-box"><div class="v">${c.ataque}</div><div class="k">Ataque</div></div>
+        <div class="stat-box"><div class="v">${efeitoLabel}</div><div class="k">Efeito</div></div>
+      </div>
+      <div class="efeito-box">
+        <div class="titulo">Como funciona</div>
+        <div class="texto">${descricao}</div>
+      </div>
+      <div class="id-tag">id: ${c.id}</div>
+    `;
+    document.getElementById('fecharModal').addEventListener('click', fecharModal);
+    elOverlay.classList.add('open');
+  }
+
+  function fecharModal() {
+    elOverlay.classList.remove('open');
+  }
+
+  elOverlay.addEventListener('click', (e) => { if (e.target === elOverlay) fecharModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') fecharModal(); });
+
+  // ------------------------------------------------------------- listeners --
+  elBusca.addEventListener('input', (e) => { estado.busca = e.target.value; render(); });
+  elOrdenar.addEventListener('change', (e) => { estado.ordenar = e.target.value; render(); });
+  elTipoFiltro.addEventListener('change', (e) => { estado.tipo = e.target.value; render(); });
+
+  // ----------------------------------------------------------------- start --
+  montarStats();
+  montarChips();
+  montarFiltroTipo();
+  render();
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+{
+  "couro": {
+    "id": "couro",
+    "nome": "Armadura de Couro",
+    "raridade": "Comum",
+    "defesa": 0.05,
+    "vida": 6,
+    "preco": 90,
+    "emoji": "🥋"
+  },
+  "malha": {
+    "id": "malha",
+    "nome": "Cota de Malha",
+    "raridade": "Incomum",
+    "defesa": 0.1,
+    "vida": 12,
+    "preco": 220,
+    "emoji": "⛓️"
+  },
+  "ferro": {
+    "id": "ferro",
+    "nome": "Placas de Ferro",
+    "raridade": "Raro",
+    "defesa": 0.16,
+    "vida": 20,
+    "preco": 480,
+    "emoji": "🛡️"
+  },
+  "aco": {
+    "id": "aco",
+    "nome": "Placas de Aço",
+    "raridade": "Épico",
+    "defesa": 0.23,
+    "vida": 30,
+    "preco": 1000,
+    "emoji": "⚙️"
+  },
+  "dragao": {
+    "id": "dragao",
+    "nome": "Armadura Escamada de Dragão",
+    "raridade": "Lendário",
+    "defesa": 0.3,
+    "vida": 42,
+    "preco": 2400,
+    "emoji": "🐉"
+  },
+  "divina": {
+    "id": "divina",
+    "nome": "Armadura Divina",
+    "raridade": "Mítico",
+    "defesa": 0.38,
+    "vida": 58,
+    "preco": 5200,
+    "emoji": "✨"
+  },
+  "ancestral": {
+    "id": "ancestral",
+    "nome": "Couraça Ancestral",
+    "raridade": "Ancestral",
+    "defesa": 0.45,
+    "vida": 75,
+    "preco": 11000,
+    "emoji": "🌌"
+  }
+}

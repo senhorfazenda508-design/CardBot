@@ -1,0 +1,117 @@
+{
+  "1177938178162831401": {
+    "username": "konami7666",
+    "moedas": 210,
+    "criadoEm": 1785695917452,
+    "ultimoDiario": 1785697543158,
+    "streakDiario": 1,
+    "colecao": [
+      "comum_espada",
+      "comum_espada",
+      "comum_escudo",
+      "comum_adaga",
+      "comum_cura"
+    ],
+    "armaduras": [],
+    "perks": [],
+    "equipamento": {
+      "armadura": null,
+      "perkPassiva": null,
+      "perkAtiva": null
+    },
+    "encantamentos": {},
+    "run": {
+      "ativa": true,
+      "andar": 1,
+      "hp": 30,
+      "hpMax": 50,
+      "escudo": 0,
+      "moedasRun": 27,
+      "status": {},
+      "buffProximaCarta": null,
+      "perkAtivaUsada": false
+    },
+    "estatisticas": {
+      "vitorias": 1,
+      "derrotas": 0,
+      "maiorAndar": 1
+    },
+    "cidade": {
+      "fundada": false,
+      "nome": null,
+      "grid": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "recursos": {
+        "madeira": 74,
+        "pedra": 40,
+        "comida": 30,
+        "ouro": 0
+      },
+      "ultimaColeta": 1785695917452
+    },
+    "taverneiro": {
+      "historico": [
+        {
+          "role": "user",
+          "content": "tamo falando de você"
+        },
+        {
+          "role": "assistant",
+          "content": "{\"resposta\":\"E aí, o que tem de novo? *sorri, limpando um copo*\"}"
+        }
+      ],
+      "moedasHoje": 0,
+      "diaMoedas": "2026-08-02",
+      "ultimaMsg": 1785695918174,
+      "desconto": 0,
+      "descontoExpira": 0,
+      "visitas": 1,
+      "totalGorjetas": 0,
+      "clienteDesde": 1785695918174,
+      "humor": "neutro",
+      "humorDesde": 1785695918174,
+      "avisos": 0,
+      "vezesExpulso": 0,
+      "deMalAte": 0
+    },
+    "banco": {
+      "saldo": 0,
+      "ultimoJuros": 1785695917452
+    },
+    "fragmentosArcanos": 0,
+    "encantamentosArcanos": {},
+    "narrador": {
+      "historico": []
+    },
+    "npcs": {},
+    "roubo": {
+      "ultimoRoubo": 0,
+      "protegidoAte": 0
+    }
+  }
+}

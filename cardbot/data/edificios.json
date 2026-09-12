@@ -1,0 +1,130 @@
+{
+  "castelo": {
+    "id": "castelo",
+    "nome": "Castelo",
+    "emoji": "🏰",
+    "custo": {
+      "madeira": 100,
+      "pedra": 100,
+      "moedas": 300
+    },
+    "pontos": 12,
+    "producaoHora": {},
+    "cor": "#c04af0"
+  },
+  "casa": {
+    "id": "casa",
+    "nome": "Casa",
+    "emoji": "🏠",
+    "custo": {
+      "madeira": 25
+    },
+    "pontos": 5,
+    "producaoHora": {},
+    "cor": "#d9a066"
+  },
+  "fazenda": {
+    "id": "fazenda",
+    "nome": "Fazenda",
+    "emoji": "🌾",
+    "custo": {
+      "madeira": 15,
+      "moedas": 15
+    },
+    "pontos": 2,
+    "producaoHora": {
+      "comida": 12
+    },
+    "cor": "#e0c341"
+  },
+  "serraria": {
+    "id": "serraria",
+    "nome": "Serraria",
+    "emoji": "🪵",
+    "custo": {
+      "moedas": 35
+    },
+    "pontos": 2,
+    "producaoHora": {
+      "madeira": 10
+    },
+    "cor": "#8a5a3b"
+  },
+  "mina_pedra": {
+    "id": "mina_pedra",
+    "nome": "Mina de Pedra",
+    "emoji": "⛏️",
+    "custo": {
+      "madeira": 30,
+      "moedas": 45
+    },
+    "pontos": 3,
+    "producaoHora": {
+      "pedra": 10
+    },
+    "cor": "#8f8f97"
+  },
+  "mina_ouro": {
+    "id": "mina_ouro",
+    "nome": "Mina de Ouro",
+    "emoji": "💰",
+    "custo": {
+      "pedra": 50,
+      "moedas": 180
+    },
+    "pontos": 5,
+    "producaoHora": {
+      "ouro": 6
+    },
+    "cor": "#ffd866"
+  },
+  "mercado": {
+    "id": "mercado",
+    "nome": "Mercado",
+    "emoji": "🏪",
+    "custo": {
+      "madeira": 50,
+      "pedra": 30
+    },
+    "pontos": 4,
+    "producaoHora": {
+      "ouro": 3
+    },
+    "cor": "#e0793a"
+  },
+  "muralha": {
+    "id": "muralha",
+    "nome": "Muralha",
+    "emoji": "🧱",
+    "custo": {
+      "pedra": 25
+    },
+    "pontos": 1,
+    "producaoHora": {},
+    "cor": "#7a7a85"
+  },
+  "torre": {
+    "id": "torre",
+    "nome": "Torre de Vigia",
+    "emoji": "🗼",
+    "custo": {
+      "pedra": 35,
+      "madeira": 20
+    },
+    "pontos": 3,
+    "producaoHora": {},
+    "cor": "#5865f2"
+  },
+  "jardim": {
+    "id": "jardim",
+    "nome": "Jardim Real",
+    "emoji": "🌳",
+    "custo": {
+      "madeira": 20,
+      "comida": 10
+    },
+    "pontos": 2,
+    "producaoHora": {},
+    "cor": "#57c96b"
+  }
+}

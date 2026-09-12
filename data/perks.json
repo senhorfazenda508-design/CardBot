@@ -1,0 +1,126 @@
+{
+  "vida_extra": {
+    "id": "vida_extra",
+    "nome": "Constituição Robusta",
+    "tipo": "passiva",
+    "raridade": "Comum",
+    "preco": 150,
+    "emoji": "❤️",
+    "descricao": "+15 de vida máxima em batalhas e duelos.",
+    "vidaBonus": 15
+  },
+  "forca_bruta": {
+    "id": "forca_bruta",
+    "nome": "Força Bruta",
+    "tipo": "passiva",
+    "raridade": "Incomum",
+    "preco": 280,
+    "emoji": "💪",
+    "descricao": "+10% de dano em todas as cartas que você jogar.",
+    "danoMult": 0.1
+  },
+  "pele_de_pedra": {
+    "id": "pele_de_pedra",
+    "nome": "Pele de Pedra",
+    "tipo": "passiva",
+    "raridade": "Raro",
+    "preco": 500,
+    "emoji": "🪨",
+    "descricao": "Reduz 8% do dano que você recebe (soma com a armadura equipada).",
+    "defesaBonus": 0.08
+  },
+  "regeneracao": {
+    "id": "regeneracao",
+    "nome": "Regeneração Natural",
+    "tipo": "passiva",
+    "raridade": "Raro",
+    "preco": 600,
+    "emoji": "🌿",
+    "descricao": "Recupera 3 de vida automaticamente no início de cada turno seu.",
+    "regenPorTurno": 3
+  },
+  "vampirismo": {
+    "id": "vampirismo",
+    "nome": "Vampirismo",
+    "tipo": "passiva",
+    "raridade": "Épico",
+    "preco": 900,
+    "emoji": "🩸",
+    "descricao": "Recupera 12% do dano causado como vida em todo ataque.",
+    "vampiroPercent": 0.12
+  },
+  "instinto_critico": {
+    "id": "instinto_critico",
+    "nome": "Instinto Crítico",
+    "tipo": "passiva",
+    "raridade": "Épico",
+    "preco": 1000,
+    "emoji": "🎯",
+    "descricao": "+10% de chance de crítico em cartas que já causam crítico, e 5% de chance de crítico em qualquer carta.",
+    "critBonus": 0.1,
+    "critBase": 0.05
+  },
+  "ultimo_folego": {
+    "id": "ultimo_folego",
+    "nome": "Último Fôlego",
+    "tipo": "passiva",
+    "raridade": "Lendário",
+    "preco": 2000,
+    "emoji": "✨",
+    "descricao": "Uma vez por batalha/duelo, sobreviva a um golpe que te mataria com 1 de vida.",
+    "ultimoFolego": true
+  },
+  "explosao_curativa": {
+    "id": "explosao_curativa",
+    "nome": "Explosão Curativa",
+    "tipo": "ativa",
+    "raridade": "Incomum",
+    "preco": 350,
+    "emoji": "💚",
+    "descricao": "Recupera 25% da sua vida máxima na hora. Não gasta o turno.",
+    "efeito": "cura_instantanea",
+    "valor": 0.25
+  },
+  "furia_de_batalha": {
+    "id": "furia_de_batalha",
+    "nome": "Fúria de Batalha",
+    "tipo": "ativa",
+    "raridade": "Raro",
+    "preco": 500,
+    "emoji": "😡",
+    "descricao": "Sua próxima carta jogada causa o dobro de dano. Não gasta o turno.",
+    "efeito": "dobro_dano"
+  },
+  "muralha_instantanea": {
+    "id": "muralha_instantanea",
+    "nome": "Muralha Instantânea",
+    "tipo": "ativa",
+    "raridade": "Raro",
+    "preco": 550,
+    "emoji": "🧱",
+    "descricao": "Ganha 20 pontos de escudo na hora. Não gasta o turno.",
+    "efeito": "escudo_grande",
+    "valor": 20
+  },
+  "golpe_certeiro": {
+    "id": "golpe_certeiro",
+    "nome": "Golpe Certeiro",
+    "tipo": "ativa",
+    "raridade": "Épico",
+    "preco": 900,
+    "emoji": "🏹",
+    "descricao": "Sua próxima carta jogada é garantidamente crítica. Não gasta o turno.",
+    "efeito": "golpe_certeiro"
+  },
+  "roubo_de_energia": {
+    "id": "roubo_de_energia",
+    "nome": "Roubo de Energia",
+    "tipo": "ativa",
+    "raridade": "Lendário",
+    "preco": 1600,
+    "emoji": "🌀",
+    "descricao": "Rouba 15 de vida do inimigo/oponente na hora. Não gasta o turno.",
+    "efeito": "roubo_instantaneo",
+    "valor": 15
+  }
+}

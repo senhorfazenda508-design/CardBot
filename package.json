@@ -1,0 +1,20 @@
+{
+  "name": "roguelite-card-bot",
+  "version": "1.0.0",
+  "description": "Bot de Discord roguelite de cartas com economia",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "deploy": "node deploy-commands.js",
+    "start": "node index.js",
+    "painel": "node web/server.js"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^1.0.2",
+    "bcryptjs": "^2.4.3",
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0"
+  }
+}

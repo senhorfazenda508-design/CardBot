@@ -1,0 +1,890 @@
+{
+  "comum_espada": {
+    "id": "comum_espada",
+    "nome": "Espada Enferrujada",
+    "raridade": "Comum",
+    "ataque": 6,
+    "efeito": "nenhum",
+    "tipo": "espada",
+    "emoji": "🗡️"
+  },
+  "comum_adaga": {
+    "id": "comum_adaga",
+    "nome": "Adaga Rápida",
+    "raridade": "Comum",
+    "ataque": 4,
+    "efeito": "critico",
+    "valor": 0.25,
+    "tipo": "adaga",
+    "emoji": "🔪"
+  },
+  "comum_cura": {
+    "id": "comum_cura",
+    "nome": "Poção Simples",
+    "raridade": "Comum",
+    "ataque": 2,
+    "efeito": "cura",
+    "valor": 5,
+    "tipo": "pocao",
+    "emoji": "🧪"
+  },
+  "comum_escudo": {
+    "id": "comum_escudo",
+    "nome": "Escudo de Madeira",
+    "raridade": "Comum",
+    "ataque": 1,
+    "efeito": "escudo",
+    "valor": 6,
+    "tipo": "escudo",
+    "emoji": "🛡️"
+  },
+  "comum_machado": {
+    "id": "comum_machado",
+    "nome": "Machado Cego",
+    "raridade": "Comum",
+    "ataque": 7,
+    "efeito": "critico",
+    "valor": 0.15,
+    "tipo": "machado",
+    "emoji": "🪓"
+  },
+  "comum_cajado": {
+    "id": "comum_cajado",
+    "nome": "Cajado Rachado",
+    "raridade": "Comum",
+    "ataque": 3,
+    "efeito": "cura",
+    "valor": 4,
+    "tipo": "cajado",
+    "emoji": "🪄"
+  },
+  "comum_funda": {
+    "id": "comum_funda",
+    "nome": "Funda de Couro",
+    "raridade": "Comum",
+    "ataque": 5,
+    "efeito": "nenhum",
+    "tipo": "arco",
+    "emoji": "🏹"
+  },
+  "comum_bandagem": {
+    "id": "comum_bandagem",
+    "nome": "Bandagem Simples",
+    "raridade": "Comum",
+    "ataque": 1,
+    "efeito": "cura",
+    "valor": 6,
+    "tipo": "pocao",
+    "emoji": "🩹"
+  },
+  "comum_broquel_couro": {
+    "id": "comum_broquel_couro",
+    "nome": "Broquel de Couro",
+    "raridade": "Comum",
+    "ataque": 2,
+    "efeito": "escudo",
+    "valor": 7,
+    "tipo": "escudo",
+    "emoji": "🛡️"
+  },
+  "incomum_ervas": {
+    "id": "incomum_ervas",
+    "nome": "Ervas Medicinais",
+    "raridade": "Incomum",
+    "ataque": 3,
+    "efeito": "cura",
+    "valor": 10,
+    "tipo": "pocao",
+    "emoji": "🌿"
+  },
+  "incomum_parede": {
+    "id": "incomum_parede",
+    "nome": "Parede de Gelo",
+    "raridade": "Incomum",
+    "ataque": 2,
+    "efeito": "escudo",
+    "valor": 12,
+    "tipo": "escudo",
+    "emoji": "🧊"
+  },
+  "incomum_lamina": {
+    "id": "incomum_lamina",
+    "nome": "Lâmina Curva",
+    "raridade": "Incomum",
+    "ataque": 9,
+    "efeito": "roubo",
+    "valor": 0.2,
+    "tipo": "adaga",
+    "emoji": "🗡️"
+  },
+  "incomum_martelo": {
+    "id": "incomum_martelo",
+    "nome": "Martelo de Ferreiro",
+    "raridade": "Incomum",
+    "ataque": 11,
+    "efeito": "escudo",
+    "valor": 6,
+    "tipo": "martelo",
+    "emoji": "🔨"
+  },
+  "incomum_arco": {
+    "id": "incomum_arco",
+    "nome": "Arco Curto",
+    "raridade": "Incomum",
+    "ataque": 8,
+    "efeito": "critico",
+    "valor": 0.2,
+    "tipo": "arco",
+    "emoji": "🏹"
+  },
+  "incomum_frasco": {
+    "id": "incomum_frasco",
+    "nome": "Frasco Revigorante",
+    "raridade": "Incomum",
+    "ataque": 4,
+    "efeito": "cura",
+    "valor": 9,
+    "tipo": "pocao",
+    "emoji": "🧪"
+  },
+  "incomum_broquel": {
+    "id": "incomum_broquel",
+    "nome": "Broquel de Bronze",
+    "raridade": "Incomum",
+    "ataque": 3,
+    "efeito": "escudo",
+    "valor": 10,
+    "tipo": "escudo",
+    "emoji": "🛡️"
+  },
+  "raro_lamina": {
+    "id": "raro_lamina",
+    "nome": "Lâmina Sombria",
+    "raridade": "Raro",
+    "ataque": 10,
+    "efeito": "roubo",
+    "valor": 0.5,
+    "tipo": "adaga",
+    "emoji": "🌑"
+  },
+  "raro_martelo": {
+    "id": "raro_martelo",
+    "nome": "Martelo de Guerra",
+    "raridade": "Raro",
+    "ataque": 13,
+    "efeito": "critico",
+    "valor": 0.18,
+    "tipo": "martelo",
+    "emoji": "🔨"
+  },
+  "raro_cajado": {
+    "id": "raro_cajado",
+    "nome": "Cajado Curativo",
+    "raridade": "Raro",
+    "ataque": 5,
+    "efeito": "cura",
+    "valor": 12,
+    "tipo": "cajado",
+    "emoji": "✨"
+  },
+  "raro_broquel": {
+    "id": "raro_broquel",
+    "nome": "Broquel de Aço",
+    "raridade": "Raro",
+    "ataque": 4,
+    "efeito": "escudo",
+    "valor": 14,
+    "tipo": "escudo",
+    "emoji": "🛡️"
+  },
+  "raro_lanca": {
+    "id": "raro_lanca",
+    "nome": "Lança Farpada",
+    "raridade": "Raro",
+    "ataque": 14,
+    "efeito": "roubo",
+    "valor": 0.25,
+    "tipo": "lanca",
+    "emoji": "🔱"
+  },
+  "raro_arco": {
+    "id": "raro_arco",
+    "nome": "Arco Élfico",
+    "raridade": "Raro",
+    "ataque": 11,
+    "efeito": "critico",
+    "valor": 0.3,
+    "tipo": "arco",
+    "emoji": "🏹"
+  },
+  "raro_elixir": {
+    "id": "raro_elixir",
+    "nome": "Elixir Sagrado",
+    "raridade": "Raro",
+    "ataque": 6,
+    "efeito": "cura",
+    "valor": 16,
+    "tipo": "pocao",
+    "emoji": "💧"
+  },
+  "raro_torre": {
+    "id": "raro_torre",
+    "nome": "Escudo Torre",
+    "raridade": "Raro",
+    "ataque": 5,
+    "efeito": "escudo",
+    "valor": 18,
+    "tipo": "escudo",
+    "emoji": "🏰"
+  },
+  "epico_foice": {
+    "id": "epico_foice",
+    "nome": "Foice Amaldiçoada",
+    "raridade": "Épico",
+    "ataque": 18,
+    "efeito": "roubo",
+    "valor": 0.4,
+    "tipo": "foice",
+    "emoji": "⚰️"
+  },
+  "epico_lanca": {
+    "id": "epico_lanca",
+    "nome": "Lança do Trovão",
+    "raridade": "Épico",
+    "ataque": 20,
+    "efeito": "critico",
+    "valor": 0.3,
+    "tipo": "lanca",
+    "emoji": "⚡"
+  },
+  "epico_totem": {
+    "id": "epico_totem",
+    "nome": "Totem Ancestral",
+    "raridade": "Épico",
+    "ataque": 8,
+    "efeito": "cura",
+    "valor": 20,
+    "tipo": "orbe",
+    "emoji": "🗿"
+  },
+  "epico_grimorio": {
+    "id": "epico_grimorio",
+    "nome": "Grimório Proibido",
+    "raridade": "Épico",
+    "ataque": 12,
+    "efeito": "roubo",
+    "valor": 0.35,
+    "tipo": "livro",
+    "emoji": "📕"
+  },
+  "epico_coroa": {
+    "id": "epico_coroa",
+    "nome": "Coroa Partida",
+    "raridade": "Épico",
+    "ataque": 16,
+    "efeito": "escudo",
+    "valor": 18,
+    "tipo": "coroa",
+    "emoji": "👑"
+  },
+  "epico_fonte": {
+    "id": "epico_fonte",
+    "nome": "Fonte da Vida",
+    "raridade": "Épico",
+    "ataque": 10,
+    "efeito": "cura",
+    "valor": 24,
+    "tipo": "orbe",
+    "emoji": "⛲"
+  },
+  "epico_bastiao": {
+    "id": "epico_bastiao",
+    "nome": "Bastião Rúnico",
+    "raridade": "Épico",
+    "ataque": 9,
+    "efeito": "escudo",
+    "valor": 26,
+    "tipo": "escudo",
+    "emoji": "🔰"
+  },
+  "lendario_excalibur": {
+    "id": "lendario_excalibur",
+    "nome": "Excalibur",
+    "raridade": "Lendário",
+    "ataque": 30,
+    "efeito": "critico",
+    "valor": 0.35,
+    "tipo": "espada",
+    "emoji": "⚔️"
+  },
+  "lendario_fenix": {
+    "id": "lendario_fenix",
+    "nome": "Pena da Fênix",
+    "raridade": "Lendário",
+    "ataque": 14,
+    "efeito": "cura",
+    "valor": 35,
+    "tipo": "pocao",
+    "emoji": "🔥"
+  },
+  "lendario_vazio": {
+    "id": "lendario_vazio",
+    "nome": "Lâmina do Vazio",
+    "raridade": "Lendário",
+    "ataque": 26,
+    "efeito": "roubo",
+    "valor": 0.6,
+    "tipo": "foice",
+    "emoji": "🌌"
+  },
+  "lendario_tridente": {
+    "id": "lendario_tridente",
+    "nome": "Tridente do Abismo",
+    "raridade": "Lendário",
+    "ataque": 28,
+    "efeito": "roubo",
+    "valor": 0.35,
+    "tipo": "lanca",
+    "emoji": "🔱"
+  },
+  "lendario_orbe": {
+    "id": "lendario_orbe",
+    "nome": "Orbe Estelar",
+    "raridade": "Lendário",
+    "ataque": 22,
+    "efeito": "escudo",
+    "valor": 24,
+    "tipo": "orbe",
+    "emoji": "🔮"
+  },
+  "lendario_calice": {
+    "id": "lendario_calice",
+    "nome": "Cálice Celestial",
+    "raridade": "Lendário",
+    "ataque": 16,
+    "efeito": "cura",
+    "valor": 40,
+    "tipo": "pocao",
+    "emoji": "🏆"
+  },
+  "lendario_bastiao": {
+    "id": "lendario_bastiao",
+    "nome": "Bastião do Titã",
+    "raridade": "Lendário",
+    "ataque": 18,
+    "efeito": "escudo",
+    "valor": 38,
+    "tipo": "escudo",
+    "emoji": "🗿"
+  },
+  "mitico_apocalipse": {
+    "id": "mitico_apocalipse",
+    "nome": "Lâmina do Apocalipse",
+    "raridade": "Mítico",
+    "ataque": 38,
+    "efeito": "critico",
+    "valor": 0.4,
+    "tipo": "espada",
+    "emoji": "🌠"
+  },
+  "mitico_devorador": {
+    "id": "mitico_devorador",
+    "nome": "Cajado Devorador",
+    "raridade": "Mítico",
+    "ataque": 24,
+    "efeito": "roubo",
+    "valor": 0.65,
+    "tipo": "cajado",
+    "emoji": "🕳️"
+  },
+  "mitico_aegis": {
+    "id": "mitico_aegis",
+    "nome": "Aegis Celestial",
+    "raridade": "Mítico",
+    "ataque": 20,
+    "efeito": "escudo",
+    "valor": 32,
+    "tipo": "escudo",
+    "emoji": "🛡️"
+  },
+  "mitico_grimorio": {
+    "id": "mitico_grimorio",
+    "nome": "Grimório do Vazio",
+    "raridade": "Mítico",
+    "ataque": 30,
+    "efeito": "cura",
+    "valor": 45,
+    "tipo": "livro",
+    "emoji": "📘"
+  },
+  "mitico_santuario": {
+    "id": "mitico_santuario",
+    "nome": "Santuário Eterno",
+    "raridade": "Mítico",
+    "ataque": 20,
+    "efeito": "escudo",
+    "valor": 42,
+    "tipo": "escudo",
+    "emoji": "⛩️"
+  },
+  "ancestral_genesis": {
+    "id": "ancestral_genesis",
+    "nome": "Lâmina Gênesis",
+    "raridade": "Ancestral",
+    "ataque": 55,
+    "efeito": "critico",
+    "valor": 0.45,
+    "tipo": "espada",
+    "emoji": "☄️"
+  },
+  "ancestral_juizo": {
+    "id": "ancestral_juizo",
+    "nome": "Cetro do Juízo Final",
+    "raridade": "Ancestral",
+    "ataque": 45,
+    "efeito": "roubo",
+    "valor": 0.7,
+    "tipo": "cajado",
+    "emoji": "⚡"
+  },
+  "ancestral_coroa": {
+    "id": "ancestral_coroa",
+    "nome": "Coroa do Primeiro Rei",
+    "raridade": "Ancestral",
+    "ataque": 40,
+    "efeito": "escudo",
+    "valor": 50,
+    "tipo": "coroa",
+    "emoji": "👑"
+  },
+  "ancestral_arvore": {
+    "id": "ancestral_arvore",
+    "nome": "Seiva da Árvore-Mãe",
+    "raridade": "Ancestral",
+    "ataque": 35,
+    "efeito": "cura",
+    "valor": 60,
+    "tipo": "pocao",
+    "emoji": "🌳"
+  },
+  "comum_inov_punhal_do_verdugo": {
+    "id": "comum_inov_punhal_do_verdugo",
+    "nome": "Punhal do Verdugo",
+    "raridade": "Comum",
+    "ataque": 4,
+    "efeito": "execucao",
+    "valor": 0.15,
+    "tipo": "adaga",
+    "emoji": "🔪"
+  },
+  "comum_inov_machadinha_rancorosa": {
+    "id": "comum_inov_machadinha_rancorosa",
+    "nome": "Machadinha Rancorosa",
+    "raridade": "Comum",
+    "ataque": 5,
+    "efeito": "vinganca",
+    "valor": 0.3,
+    "tipo": "machado",
+    "emoji": "🪓"
+  },
+  "comum_inov_moeda_do_destino": {
+    "id": "comum_inov_moeda_do_destino",
+    "nome": "Moeda do Destino",
+    "raridade": "Comum",
+    "ataque": 3,
+    "efeito": "sorte",
+    "valor": 4,
+    "tipo": "orbe",
+    "emoji": "🎲"
+  },
+  "comum_inov_forcado_faminto": {
+    "id": "comum_inov_forcado_faminto",
+    "nome": "Forcado Faminto",
+    "raridade": "Comum",
+    "ataque": 4,
+    "efeito": "investida_dupla",
+    "valor": 0.4,
+    "tipo": "lanca",
+    "emoji": "🔱"
+  },
+  "comum_inov_cha_das_curandeiras": {
+    "id": "comum_inov_cha_das_curandeiras",
+    "nome": "Chá das Curandeiras",
+    "raridade": "Comum",
+    "ataque": 2,
+    "efeito": "cura_percentual",
+    "valor": 0.08,
+    "tipo": "pocao",
+    "emoji": "🍵"
+  },
+  "comum_inov_lamina_do_encurralado": {
+    "id": "comum_inov_lamina_do_encurralado",
+    "nome": "Lâmina do Encurralado",
+    "raridade": "Comum",
+    "ataque": 4,
+    "efeito": "ultimo_suspiro",
+    "valor": 0.2,
+    "tipo": "espada",
+    "emoji": "🗡️"
+  },
+  "incomum_inov_foice_do_agouro": {
+    "id": "incomum_inov_foice_do_agouro",
+    "nome": "Foice do Agouro",
+    "raridade": "Incomum",
+    "ataque": 7,
+    "efeito": "ceifador",
+    "valor": 0.4,
+    "tipo": "foice",
+    "emoji": "🌾"
+  },
+  "incomum_inov_adaga_sanguessuga": {
+    "id": "incomum_inov_adaga_sanguessuga",
+    "nome": "Adaga Sanguessuga",
+    "raridade": "Incomum",
+    "ataque": 8,
+    "efeito": "roubo_blindado",
+    "valor": 0.4,
+    "tipo": "adaga",
+    "emoji": "🩸"
+  },
+  "incomum_inov_cajado_do_martir": {
+    "id": "incomum_inov_cajado_do_martir",
+    "nome": "Cajado do Mártir",
+    "raridade": "Incomum",
+    "ataque": 6,
+    "efeito": "sacrificio",
+    "valor": 0.1,
+    "tipo": "cajado",
+    "emoji": "💀"
+  },
+  "incomum_inov_flecha_cacadora": {
+    "id": "incomum_inov_flecha_cacadora",
+    "nome": "Flecha Caçadora",
+    "raridade": "Incomum",
+    "ataque": 7,
+    "efeito": "execucao",
+    "valor": 0.18,
+    "tipo": "arco",
+    "emoji": "🏹"
+  },
+  "incomum_inov_dado_runico": {
+    "id": "incomum_inov_dado_runico",
+    "nome": "Dado Rúnico",
+    "raridade": "Incomum",
+    "ataque": 5,
+    "efeito": "sorte",
+    "valor": 7,
+    "tipo": "orbe",
+    "emoji": "🎲"
+  },
+  "incomum_inov_tridente_bifido": {
+    "id": "incomum_inov_tridente_bifido",
+    "nome": "Tridente Bífido",
+    "raridade": "Incomum",
+    "ataque": 6,
+    "efeito": "investida_dupla",
+    "valor": 0.5,
+    "tipo": "lanca",
+    "emoji": "🔱"
+  },
+  "raro_inov_furia_do_encurralado": {
+    "id": "raro_inov_furia_do_encurralado",
+    "nome": "Fúria do Encurralado",
+    "raridade": "Raro",
+    "ataque": 9,
+    "efeito": "vinganca",
+    "valor": 0.55,
+    "tipo": "machado",
+    "emoji": "🪓"
+  },
+  "raro_inov_marreta_perfurante": {
+    "id": "raro_inov_marreta_perfurante",
+    "nome": "Marreta Perfurante",
+    "raridade": "Raro",
+    "ataque": 10,
+    "efeito": "brecha",
+    "valor": 1,
+    "tipo": "martelo",
+    "emoji": "🔨"
+  },
+  "raro_inov_elixir_vital": {
+    "id": "raro_inov_elixir_vital",
+    "nome": "Elixir Vital",
+    "raridade": "Raro",
+    "ataque": 5,
+    "efeito": "cura_percentual",
+    "valor": 0.13,
+    "tipo": "pocao",
+    "emoji": "🧪"
+  },
+  "raro_inov_foice_ceifadora": {
+    "id": "raro_inov_foice_ceifadora",
+    "nome": "Foice Ceifadora",
+    "raridade": "Raro",
+    "ataque": 8,
+    "efeito": "ceifador",
+    "valor": 0.55,
+    "tipo": "foice",
+    "emoji": "🌾"
+  },
+  "raro_inov_espada_da_redencao": {
+    "id": "raro_inov_espada_da_redencao",
+    "nome": "Espada da Redenção",
+    "raridade": "Raro",
+    "ataque": 9,
+    "efeito": "ultimo_suspiro",
+    "valor": 0.25,
+    "tipo": "espada",
+    "emoji": "⚔️"
+  },
+  "raro_inov_orbe_do_sacrificio": {
+    "id": "raro_inov_orbe_do_sacrificio",
+    "nome": "Orbe do Sacrifício",
+    "raridade": "Raro",
+    "ataque": 11,
+    "efeito": "sacrificio",
+    "valor": 0.12,
+    "tipo": "orbe",
+    "emoji": "💀"
+  },
+  "epico_inov_arco_do_golpe_de_misericordia": {
+    "id": "epico_inov_arco_do_golpe_de_misericordia",
+    "nome": "Arco do Golpe de Misericórdia",
+    "raridade": "Épico",
+    "ataque": 13,
+    "efeito": "execucao",
+    "valor": 0.26,
+    "tipo": "arco",
+    "emoji": "🏹"
+  },
+  "epico_inov_presas_da_viuva_negra": {
+    "id": "epico_inov_presas_da_viuva_negra",
+    "nome": "Presas da Viúva Negra",
+    "raridade": "Épico",
+    "ataque": 14,
+    "efeito": "roubo_blindado",
+    "valor": 0.6,
+    "tipo": "adaga",
+    "emoji": "🩸"
+  },
+  "epico_inov_lanca_bifida_do_caos": {
+    "id": "epico_inov_lanca_bifida_do_caos",
+    "nome": "Lança Bífida do Caos",
+    "raridade": "Épico",
+    "ataque": 12,
+    "efeito": "investida_dupla",
+    "valor": 0.6,
+    "tipo": "lanca",
+    "emoji": "🔱"
+  },
+  "epico_inov_estilhaca_escudos": {
+    "id": "epico_inov_estilhaca_escudos",
+    "nome": "Estilhaça-Escudos",
+    "raridade": "Épico",
+    "ataque": 15,
+    "efeito": "brecha",
+    "valor": 1,
+    "tipo": "martelo",
+    "emoji": "🔨"
+  },
+  "epico_inov_orbe_do_caos": {
+    "id": "epico_inov_orbe_do_caos",
+    "nome": "Orbe do Caos",
+    "raridade": "Épico",
+    "ataque": 10,
+    "efeito": "sorte",
+    "valor": 15,
+    "tipo": "orbe",
+    "emoji": "🎲"
+  },
+  "epico_inov_machado_da_ira_contida": {
+    "id": "epico_inov_machado_da_ira_contida",
+    "nome": "Machado da Ira Contida",
+    "raridade": "Épico",
+    "ataque": 13,
+    "efeito": "vinganca",
+    "valor": 0.75,
+    "tipo": "machado",
+    "emoji": "🪓"
+  },
+  "lendario_inov_foice_do_ceifador_real": {
+    "id": "lendario_inov_foice_do_ceifador_real",
+    "nome": "Foice do Ceifador Real",
+    "raridade": "Lendário",
+    "ataque": 18,
+    "efeito": "ceifador",
+    "valor": 0.9,
+    "tipo": "foice",
+    "emoji": "🌾"
+  },
+  "lendario_inov_cajado_da_ultima_prece": {
+    "id": "lendario_inov_cajado_da_ultima_prece",
+    "nome": "Cajado da Última Prece",
+    "raridade": "Lendário",
+    "ataque": 20,
+    "efeito": "sacrificio",
+    "valor": 0.16,
+    "tipo": "cajado",
+    "emoji": "💀"
+  },
+  "lendario_inov_nectar_da_ressurreicao": {
+    "id": "lendario_inov_nectar_da_ressurreicao",
+    "nome": "Néctar da Ressurreição",
+    "raridade": "Lendário",
+    "ataque": 14,
+    "efeito": "cura_percentual",
+    "valor": 0.22,
+    "tipo": "pocao",
+    "emoji": "🧪"
+  },
+  "lendario_inov_lamina_do_ultimo_folego": {
+    "id": "lendario_inov_lamina_do_ultimo_folego",
+    "nome": "Lâmina do Último Fôlego",
+    "raridade": "Lendário",
+    "ataque": 19,
+    "efeito": "ultimo_suspiro",
+    "valor": 0.3,
+    "tipo": "espada",
+    "emoji": "⚔️"
+  },
+  "lendario_inov_flecha_do_executor": {
+    "id": "lendario_inov_flecha_do_executor",
+    "nome": "Flecha do Executor",
+    "raridade": "Lendário",
+    "ataque": 20,
+    "efeito": "execucao",
+    "valor": 0.3,
+    "tipo": "arco",
+    "emoji": "🏹"
+  },
+  "lendario_inov_punho_estilhacador": {
+    "id": "lendario_inov_punho_estilhacador",
+    "nome": "Punho Estilhaçador",
+    "raridade": "Lendário",
+    "ataque": 22,
+    "efeito": "brecha",
+    "valor": 1,
+    "tipo": "martelo",
+    "emoji": "🔨"
+  },
+  "mitico_inov_furia_ancestral": {
+    "id": "mitico_inov_furia_ancestral",
+    "nome": "Fúria Ancestral",
+    "raridade": "Mítico",
+    "ataque": 24,
+    "efeito": "vinganca",
+    "valor": 1.15,
+    "tipo": "machado",
+    "emoji": "🪓"
+  },
+  "mitico_inov_presas_do_vazio": {
+    "id": "mitico_inov_presas_do_vazio",
+    "nome": "Presas do Vazio",
+    "raridade": "Mítico",
+    "ataque": 26,
+    "efeito": "roubo_blindado",
+    "valor": 0.8,
+    "tipo": "adaga",
+    "emoji": "🩸"
+  },
+  "mitico_inov_lanca_das_mil_pontas": {
+    "id": "mitico_inov_lanca_das_mil_pontas",
+    "nome": "Lança das Mil Pontas",
+    "raridade": "Mítico",
+    "ataque": 22,
+    "efeito": "investida_dupla",
+    "valor": 0.75,
+    "tipo": "lanca",
+    "emoji": "🔱"
+  },
+  "mitico_inov_orbe_do_caos_absoluto": {
+    "id": "mitico_inov_orbe_do_caos_absoluto",
+    "nome": "Orbe do Caos Absoluto",
+    "raridade": "Mítico",
+    "ataque": 20,
+    "efeito": "sorte",
+    "valor": 30,
+    "tipo": "orbe",
+    "emoji": "🎲"
+  },
+  "mitico_inov_foice_da_colheita_final": {
+    "id": "mitico_inov_foice_da_colheita_final",
+    "nome": "Foice da Colheita Final",
+    "raridade": "Mítico",
+    "ataque": 25,
+    "efeito": "ceifador",
+    "valor": 1.1,
+    "tipo": "foice",
+    "emoji": "🌾"
+  },
+  "mitico_inov_cajado_do_preco_de_sangue": {
+    "id": "mitico_inov_cajado_do_preco_de_sangue",
+    "nome": "Cajado do Preço de Sangue",
+    "raridade": "Mítico",
+    "ataque": 28,
+    "efeito": "sacrificio",
+    "valor": 0.18,
+    "tipo": "cajado",
+    "emoji": "💀"
+  },
+  "ancestral_inov_arco_do_juizo": {
+    "id": "ancestral_inov_arco_do_juizo",
+    "nome": "Arco do Juízo",
+    "raridade": "Ancestral",
+    "ataque": 34,
+    "efeito": "execucao",
+    "valor": 0.38,
+    "tipo": "arco",
+    "emoji": "🏹"
+  },
+  "ancestral_inov_lamina_do_fim_dos_tempos": {
+    "id": "ancestral_inov_lamina_do_fim_dos_tempos",
+    "nome": "Lâmina do Fim dos Tempos",
+    "raridade": "Ancestral",
+    "ataque": 36,
+    "efeito": "ultimo_suspiro",
+    "valor": 0.35,
+    "tipo": "espada",
+    "emoji": "⚔️"
+  },
+  "ancestral_inov_calice_da_ressurreicao_eterna": {
+    "id": "ancestral_inov_calice_da_ressurreicao_eterna",
+    "nome": "Cálice da Ressurreição Eterna",
+    "raridade": "Ancestral",
+    "ataque": 30,
+    "efeito": "cura_percentual",
+    "valor": 0.35,
+    "tipo": "pocao",
+    "emoji": "🧪"
+  },
+  "ancestral_inov_marreta_que_quebra_mundos": {
+    "id": "ancestral_inov_marreta_que_quebra_mundos",
+    "nome": "Marreta que Quebra Mundos",
+    "raridade": "Ancestral",
+    "ataque": 38,
+    "efeito": "brecha",
+    "valor": 1,
+    "tipo": "martelo",
+    "emoji": "🔨"
+  },
+  "ancestral_inov_machado_da_vinganca_eterna": {
+    "id": "ancestral_inov_machado_da_vinganca_eterna",
+    "nome": "Machado da Vingança Eterna",
+    "raridade": "Ancestral",
+    "ataque": 35,
+    "efeito": "vinganca",
+    "valor": 1.4,
+    "tipo": "machado",
+    "emoji": "🪓"
+  },
+  "ancestral_inov_lanca_do_dragao_bicefalo": {
+    "id": "ancestral_inov_lanca_do_dragao_bicefalo",
+    "nome": "Lança do Dragão Bicéfalo",
+    "raridade": "Ancestral",
+    "ataque": 33,
+    "efeito": "investida_dupla",
+    "valor": 0.85,
+    "tipo": "lanca",
+    "emoji": "🔱"
+  }
+}

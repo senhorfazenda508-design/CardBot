@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Painel da Vila — CardBot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Spectral:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/app.css" />
+</head>
+<body>
+
+<!-- ==================== TELA DE CARREGAMENTO ==================== -->
+<div id="tela-carregando" class="tela-cheia">
+  <div class="selo-carregando">🏮</div>
+</div>
+
+<!-- ==================== SETUP INICIAL (primeiro acesso) ==================== -->
+<div id="tela-setup" class="tela-cheia oculto">
+  <form id="form-setup" class="cartao-login">
+    <div class="brasao">🏰</div>
+    <h1>Fundar o Painel</h1>
+    <p class="subtitulo">Este é o primeiro acesso. Crie a conta do <strong>Dono</strong> — quem tem essa conta controla tudo: NPCs, a vila, e quem mais pode entrar aqui.</p>
+    <label>Usuário
+      <input type="text" id="setup-usuario" autocomplete="username" required minlength="3" />
+    </label>
+    <label>Senha
+      <input type="password" id="setup-senha" autocomplete="new-password" required minlength="6" />
+    </label>
+    <p class="erro oculto" id="setup-erro"></p>
+    <button type="submit" class="botao-principal">Fundar e entrar</button>
+  </form>
+</div>
+
+<!-- ==================== LOGIN ==================== -->
+<div id="tela-login" class="tela-cheia oculto">
+  <form id="form-login" class="cartao-login">
+    <div class="brasao">🍺</div>
+    <h1>Painel da Vila</h1>
+    <p class="subtitulo">Entre pra administrar o bot.</p>
+    <label>Usuário
+      <input type="text" id="login-usuario" autocomplete="username" required />
+    </label>
+    <label>Senha
+      <input type="password" id="login-senha" autocomplete="current-password" required />
+    </label>
+    <p class="erro oculto" id="login-erro"></p>
+    <button type="submit" class="botao-principal">Entrar</button>
+  </form>
+</div>
+
+<!-- ==================== APP ==================== -->
+<div id="app" class="oculto">
+  <aside class="barra-lateral">
+    <div class="placa-taverna">
+      <span class="placa-emoji">🏮</span>
+      <span class="placa-texto">Painel da Vila</span>
+    </div>
+    <nav id="nav-abas">
+      <button class="item-nav ativo" data-aba="visao-geral">📊 Visão geral</button>
+      <button class="item-nav" data-aba="npcs">🎭 Moradores (NPCs)</button>
+      <button class="item-nav" data-aba="vila">🏗️ Vila &amp; edifícios</button>
+      <button class="item-nav" data-aba="cartas">🗡️ Cartas</button>
+      <button class="item-nav" data-aba="armaduras">🛡️ Armaduras</button>
+      <button class="item-nav" data-aba="perks">✨ Perks</button>
+      <button class="item-nav" data-aba="jogadores">👥 Jogadores</button>
+      <button class="item-nav" data-aba="config">⚙️ Dono &amp; permissões</button>
+      <button class="item-nav" data-aba="contas">🔑 Contas do painel</button>
+    </nav>
+    <div class="rodape-lateral">
+      <div class="selo-usuario">
+        <span id="selo-inicial">?</span>
+        <div>
+          <div id="rodape-usuario">—</div>
+          <div id="rodape-papel" class="papel-tag">—</div>
+        </div>
+      </div>
+      <button id="btn-sair" class="botao-fantasma">Sair</button>
+    </div>
+  </aside>
+
+  <main class="conteudo">
+    <!-- VISÃO GERAL -->
+    <section id="aba-visao-geral" class="aba">
+      <header class="cabecalho-aba">
+        <h1>Visão geral</h1>
+        <p>Como a vila e o bot estão agora.</p>
+      </header>
+      <div class="grade-cartoes" id="cartoes-status"></div>
+      <div class="painel">
+        <h2>Top jogadores por moedas</h2>
+        <div class="tabela-scroll">
+          <table id="tabela-top"><thead><tr><th>Jogador</th><th>Moedas</th><th>Vitórias</th><th>Cidade</th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- NPCS -->
+    <section id="aba-npcs" class="aba oculto">
+      <header class="cabecalho-aba">
+        <h1>Moradores da vila</h1>
+        <p>Nome, jeito de ser, profissão e bordões de cada NPC. Muda na hora — sem reiniciar o bot.</p>
+        <button class="botao-principal" id="btn-novo-npc">+ Novo morador</button>
+      </header>
+      <div id="lista-npcs" class="grade-npcs"></div>
+    </section>
+
+    <!-- VILA / EDIFÍCIOS -->
+    <section id="aba-vila" class="aba oculto">
+      <header class="cabecalho-aba">
+        <h1>Vila &amp; edifícios</h1>
+        <p>Modelo de edifícios que todo jogador pode construir na própria cidade. Alterações valem no próximo restart do bot.</p>
+        <button class="botao-principal" id="btn-novo-edificio">+ Novo edifício</button>
+      </header>
+      <div id="lista-edificios" class="grade-npcs"></div>
+    </section>
+
+    <!-- CARTAS -->
+    <section id="aba-cartas" class="aba oculto">
+      <header class="cabecalho-aba">
+        <h1>Cartas</h1>
+        <p>Catálogo de cartas do jogo (ataque, efeito, raridade). Alterações valem no próximo restart do bot.</p>
+        <button class="botao-principal" id="btn-nova-carta">+ Nova carta</button>
+      </header>
+      <div class="filtro-raridade" id="filtro-cartas"></div>
+      <div id="lista-cartas" class="grade-npcs"></div>
+    </section>
+
+    <!-- ARMADURAS -->
+    <section id="aba-armaduras" class="aba oculto">
+      <header class="cabecalho-aba">
+        <h1>Armaduras</h1>
+        <p>Equipamentos persistentes: defesa, vida extra e preço na loja. Alterações valem no próximo restart do bot.</p>
+        <button class="botao-principal" id="btn-nova-armadura">+ Nova armadura</button>
+      </header>
+      <div id="lista-armaduras" class="grade-npcs"></div>
+    </section>
+
+    <!-- PERKS -->
+    <section id="aba-perks" class="aba oculto">
+      <header class="cabecalho-aba">
+        <h1>Perks</h1>
+        <p>Passivas (bônus automático) e ativas (usadas 1x por batalha/duelo). Alterações valem no próximo restart do bot.</p>
+        <button class="botao-principal" id="btn-novo-perk">+ Novo perk</button>
+      </header>
+      <div id="lista-perks" class="grade-npcs"></div>
+    </section>
+
+    <!-- JOGADORES -->
+    <section id="aba-jogadores" class="aba oculto">
+      <header class="cabecalho-aba">
+        <h1>Jogadores</h1>
+        <p>Somente leitura — os dados de jogadores ficam em cache no processo do bot, então edição fica pelos comandos /admin do Discord pra não haver conflito.</p>
+      </header>
+      <div class="tabela-scroll">
+        <table id="tabela-jogadores"><thead><tr><th>Jogador</th><th>Moedas</th><th>Vitórias</th><th>Derrotas</th><th>Maior andar</th><th>Cidade</th><th>NPCs convidados</th></tr></thead><tbody></tbody></table>
+      </div>
+    </section>
+
+    <!-- CONFIG / DONO -->
+    <section id="aba-config" class="aba oculto">
+      <header class="cabecalho-aba">
+        <h1>Dono &amp; permissões do bot</h1>
+        <p>Quem tem acesso de administrador do bot em qualquer servidor do Discord (e em DM).</p>
+      </header>
+      <form id="form-config" class="painel formulario">
+        <label>Nome do dono (só exibição)
+          <input type="text" id="cfg-dono-nome" />
+        </label>
+        <label>ID Discord do dono do bot
+          <input type="text" id="cfg-dono-id" placeholder="Ex: 123456789012345678" />
+        </label>
+        <label>IDs Discord de admins extras (separados por vírgula)
+          <input type="text" id="cfg-admin-ids" placeholder="111111111111111111, 222222222222222222" />
+        </label>
+        <label>Nome padrão sugerido pra novas vilas
+          <input type="text" id="cfg-nome-vila" placeholder="Opcional" />
+        </label>
+        <p class="dica">Essas pessoas conseguem usar <code>/admin</code> e <code>;admin</code> em qualquer servidor onde o bot estiver, mesmo sem permissão "Gerenciar Servidor".</p>
+        <button type="submit" class="botao-principal">Salvar</button>
+        <p class="sucesso oculto" id="cfg-sucesso">Salvo!</p>
+      </form>
+    </section>
+
+    <!-- CONTAS DO PAINEL -->
+    <section id="aba-contas" class="aba oculto">
+      <header class="cabecalho-aba">
+        <h1>Contas do painel</h1>
+        <p>Quem consegue entrar <em>neste site</em>. "Dono" pode tudo, inclusive gerenciar outras contas; "Admin" edita NPCs e vila, mas não mexe em contas nem no dono do bot.</p>
+      </header>
+      <div class="painel">
+        <table id="tabela-contas"><thead><tr><th>Usuário</th><th>Papel</th><th>Criado em</th><th></th></tr></thead><tbody></tbody></table>
+      </div>
+      <form id="form-nova-conta" class="painel formulario">
+        <h2>Nova conta</h2>
+        <label>Usuário<input type="text" id="conta-usuario" required minlength="3" /></label>
+        <label>Senha<input type="password" id="conta-senha" required minlength="6" /></label>
+        <label>Papel
+          <select id="conta-papel">
+            <option value="admin">Admin</option>
+            <option value="dono">Dono</option>
+          </select>
+        </label>
+        <button type="submit" class="botao-principal">Criar conta</button>
+        <p class="erro oculto" id="conta-erro"></p>
+      </form>
+    </section>
+  </main>
+</div>
+
+<!-- ==================== MODAL NPC ==================== -->
+<div id="modal-npc" class="sobreposicao oculto">
+  <form id="form-npc" class="cartao-modal">
+    <h2 id="modal-npc-titulo">Editar morador</h2>
+    <input type="hidden" id="npc-id-original" />
+    <label>Nome<input type="text" id="npc-nome" required /></label>
+    <label>Emoji<input type="text" id="npc-emoji" maxlength="4" /></label>
+    <label>Profissão<input type="text" id="npc-profissao" placeholder="Ex: Ferreira, Erudita, Eremita..." /></label>
+    <label>Raridade
+      <select id="npc-raridade"></select>
+    </label>
+    <label>Jeito de ser (persona)
+      <textarea id="npc-persona" rows="4" placeholder="Como esse NPC fala e se comporta"></textarea>
+    </label>
+    <label>Bordões (um por linha)
+      <textarea id="npc-bordoes" rows="3" placeholder="Frase de efeito 1&#10;Frase de efeito 2"></textarea>
+    </label>
+    <label>Custo pra convidar pra vila (moedas — deixe vazio se não for convidável)
+      <input type="number" id="npc-custo" min="0" />
+    </label>
+    <label>Frase ao aceitar o convite
+      <input type="text" id="npc-frase-convite" />
+    </label>
+    <div class="acoes-modal">
+      <button type="button" class="botao-fantasma" id="btn-cancelar-npc">Cancelar</button>
+      <button type="button" class="botao-perigo oculto" id="btn-remover-npc">Remover</button>
+      <button type="submit" class="botao-principal">Salvar</button>
+    </div>
+    <p class="erro oculto" id="npc-erro"></p>
+  </form>
+</div>
+
+<!-- ==================== MODAL EDIFÍCIO ==================== -->
+<div id="modal-edificio" class="sobreposicao oculto">
+  <form id="form-edificio" class="cartao-modal">
+    <h2 id="modal-edificio-titulo">Editar edifício</h2>
+    <input type="hidden" id="ed-id-original" />
+    <label>Nome<input type="text" id="ed-nome" required /></label>
+    <label>Emoji<input type="text" id="ed-emoji" maxlength="4" /></label>
+    <label>Cor (hex)<input type="text" id="ed-cor" placeholder="#c04af0" /></label>
+    <label>Pontos de cidade<input type="number" id="ed-pontos" min="0" /></label>
+    <label>Custo — madeira<input type="number" id="ed-custo-madeira" min="0" /></label>
+    <label>Custo — pedra<input type="number" id="ed-custo-pedra" min="0" /></label>
+    <label>Custo — comida<input type="number" id="ed-custo-comida" min="0" /></label>
+    <label>Custo — moedas<input type="number" id="ed-custo-moedas" min="0" /></label>
+    <label>Produção por hora — madeira<input type="number" id="ed-prod-madeira" min="0" /></label>
+    <label>Produção por hora — pedra<input type="number" id="ed-prod-pedra" min="0" /></label>
+    <label>Produção por hora — comida<input type="number" id="ed-prod-comida" min="0" /></label>
+    <label>Produção por hora — ouro<input type="number" id="ed-prod-ouro" min="0" /></label>
+    <p class="dica">Vale a partir do próximo restart do bot (<code>npm start</code>).</p>
+    <div class="acoes-modal">
+      <button type="button" class="botao-fantasma" id="btn-cancelar-edificio">Cancelar</button>
+      <button type="button" class="botao-perigo oculto" id="btn-remover-edificio">Remover</button>
+      <button type="submit" class="botao-principal">Salvar</button>
+    </div>
+    <p class="erro oculto" id="ed-erro"></p>
+  </form>
+</div>
+
+<!-- ==================== MODAL CARTA ==================== -->
+<div id="modal-carta" class="sobreposicao oculto">
+  <form id="form-carta" class="cartao-modal">
+    <h2 id="modal-carta-titulo">Editar carta</h2>
+    <input type="hidden" id="carta-id-original" />
+    <label>Nome<input type="text" id="carta-nome" required /></label>
+    <label>Emoji<input type="text" id="carta-emoji" maxlength="4" /></label>
+    <label>Raridade
+      <select id="carta-raridade"></select>
+    </label>
+    <label>Ataque<input type="number" id="carta-ataque" min="0" required /></label>
+    <label>Efeito
+      <select id="carta-efeito">
+        <option value="nenhum">nenhum</option>
+        <option value="cura">cura</option>
+        <option value="roubo">roubo</option>
+        <option value="critico">critico</option>
+        <option value="escudo">escudo</option>
+      </select>
+    </label>
+    <label>Valor do efeito (cura/escudo: número fixo; roubo/crítico: fração, ex. 0.25 = 25%)
+      <input type="number" id="carta-valor" step="0.01" />
+    </label>
+    <label>Tipo (define o desenho do ícone — ex: espada, adaga, cajado, arco, escudo, martelo, lanca, foice, orbe, livro, coroa, machado, pocao)
+      <input type="text" id="carta-tipo" />
+    </label>
+    <div class="acoes-modal">
+      <button type="button" class="botao-fantasma" id="btn-cancelar-carta">Cancelar</button>
+      <button type="button" class="botao-perigo oculto" id="btn-remover-carta">Remover</button>
+      <button type="submit" class="botao-principal">Salvar</button>
+    </div>
+    <p class="erro oculto" id="carta-erro"></p>
+  </form>
+</div>
+
+<!-- ==================== MODAL ARMADURA ==================== -->
+<div id="modal-armadura" class="sobreposicao oculto">
+  <form id="form-armadura" class="cartao-modal">
+    <h2 id="modal-armadura-titulo">Editar armadura</h2>
+    <input type="hidden" id="armadura-id-original" />
+    <label>Nome<input type="text" id="armadura-nome" required /></label>
+    <label>Emoji<input type="text" id="armadura-emoji" maxlength="4" /></label>
+    <label>Raridade
+      <select id="armadura-raridade"></select>
+    </label>
+    <label>Defesa (fração — ex: 0.10 = reduz 10% do dano recebido)<input type="number" id="armadura-defesa" step="0.01" min="0" /></label>
+    <label>Vida extra<input type="number" id="armadura-vida" min="0" /></label>
+    <label>Preço na loja<input type="number" id="armadura-preco" min="0" /></label>
+    <div class="acoes-modal">
+      <button type="button" class="botao-fantasma" id="btn-cancelar-armadura">Cancelar</button>
+      <button type="button" class="botao-perigo oculto" id="btn-remover-armadura">Remover</button>
+      <button type="submit" class="botao-principal">Salvar</button>
+    </div>
+    <p class="erro oculto" id="armadura-erro"></p>
+  </form>
+</div>
+
+<!-- ==================== MODAL PERK ==================== -->
+<div id="modal-perk" class="sobreposicao oculto">
+  <form id="form-perk" class="cartao-modal">
+    <h2 id="modal-perk-titulo">Editar perk</h2>
+    <input type="hidden" id="perk-id-original" />
+    <label>Nome<input type="text" id="perk-nome" required /></label>
+    <label>Emoji<input type="text" id="perk-emoji" maxlength="4" /></label>
+    <label>Tipo
+      <select id="perk-tipo">
+        <option value="passiva">Passiva (bônus automático)</option>
+        <option value="ativa">Ativa (1x por batalha/duelo)</option>
+      </select>
+    </label>
+    <label>Raridade
+      <select id="perk-raridade"></select>
+    </label>
+    <label>Preço na loja<input type="number" id="perk-preco" min="0" /></label>
+    <label>Descrição (texto mostrado ao jogador)
+      <textarea id="perk-descricao" rows="2"></textarea>
+    </label>
+    <label>Bônus (JSON avançado — ex: <code>{"vidaBonus": 15}</code>, <code>{"danoMult": 0.1}</code>, <code>{"efeito": "dobro_dano"}</code>)
+      <textarea id="perk-extra" rows="3" placeholder='{"vidaBonus": 15}'></textarea>
+    </label>
+    <p class="dica">Campos possíveis: <code>vidaBonus</code>, <code>danoMult</code>, <code>defesaBonus</code>, <code>regenPorTurno</code>, <code>vampiroPercent</code>, <code>critBonus</code>, <code>critBase</code>, <code>ultimoFolego</code> (true/false), ou <code>efeito</code>+<code>valor</code> pras perks ativas.</p>
+    <div class="acoes-modal">
+      <button type="button" class="botao-fantasma" id="btn-cancelar-perk">Cancelar</button>
+      <button type="button" class="botao-perigo oculto" id="btn-remover-perk">Remover</button>
+      <button type="submit" class="botao-principal">Salvar</button>
+    </div>
+    <p class="erro oculto" id="perk-erro"></p>
+  </form>
+</div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>
