@@ -1,13 +1,13 @@
 // "A Taverna Viva": gera, sob demanda, uma cena curta de diálogo ENTRE os
 // NPCs da vila do jogador (Thomas + moradores convidados via /convidar).
-// Usa o mesmo motor/token de IA do Thomas (GROQ_API_KEY) — não precisa de
-// nenhuma chave nova. É só flavor (não mexe em moedas/economia), então o
+// Usa o mesmo motor/token de IA do Thomas (DEEPSEEK_API_KEY) — não precisa
+// de nenhuma chave nova. É só flavor (não mexe em moedas/economia), então o
 // único limite é um cooldown pra não abusar da API.
 
 const { EmbedBuilder } = require('discord.js');
 const { getPlayer } = require('../db');
 const { npcsConvidaveis } = require('../game/npcs');
-const { chamarGroq, extrairJSON } = require('../game/npcEngine');
+const { chamarDeepSeek, extrairJSON } = require('../game/npcEngine');
 
 const COOLDOWN_MS = 3 * 60 * 1000; // 3 min por jogador
 const MAX_PARTICIPANTES = 3; // Thomas + até 2 moradores, pra cena não ficar longa demais
@@ -71,8 +71,8 @@ async function tavernaCore(ctx) {
     return;
   }
 
-  if (!process.env.GROQ_API_KEY) {
-    await ctx.send({ content: '🍺 A taverna está estranhamente quieta... (nenhuma GROQ_API_KEY configurada no bot)' });
+  if (!process.env.DEEPSEEK_API_KEY) {
+    await ctx.send({ content: '🍺 A taverna está estranhamente quieta... (nenhuma DEEPSEEK_API_KEY configurada no bot)' });
     return;
   }
 
@@ -82,8 +82,8 @@ async function tavernaCore(ctx) {
 
   let resposta;
   try {
-    resposta = await chamarGroq(mensagens);
-    if (!resposta) resposta = await chamarGroq(mensagens, false);
+    resposta = await chamarDeepSeek(mensagens);
+    if (!resposta) resposta = await chamarDeepSeek(mensagens, false);
   } catch (err) {
     console.error('Erro ao gerar cena da taverna:', err);
     await ctx.send({ content: '🍺 Algo interrompeu a conversa na taverna... (erro de conexão com a IA)' });

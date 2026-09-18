@@ -31,7 +31,7 @@
 // isso tem cooldown por canal (não por pessoa) pra não sair caro se o canal
 // bombar de mensagens ao mesmo tempo.
 
-const { chatCompletion, ErroIA } = require('../lib/openrouter');
+const { chatCompletion, ErroIA } = require('../lib/deepseek');
 const chatiaStore = require('../lib/chatiaStore');
 
 // ---------------------------------------------------------------- limites --

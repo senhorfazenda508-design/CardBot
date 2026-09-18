@@ -28,8 +28,8 @@ async function charumaIniciar(ctx, message) {
   if (!ehAdmin(ctx)) return negarAcesso(ctx);
   if (!ctx.guildId) return negarForaDeServidor(ctx);
 
-  if (!process.env.OPENROUTER_API_KEY) {
-    await ctx.send({ content: '⚠️ Nenhuma `OPENROUTER_API_KEY` configurada no bot — sem ela nenhum dos dois consegue falar.' });
+  if (!process.env.DEEPSEEK_API_KEY) {
+    await ctx.send({ content: '⚠️ Nenhuma `DEEPSEEK_API_KEY` configurada no bot — sem ela nenhum dos dois consegue falar.' });
     return;
   }
 

@@ -26,9 +26,9 @@ Todo comando funciona das duas formas: como **slash command** (`/explorar`) ou c
 | `/encantar <nome>` | `;encantar <nome>` | Consome cópias de uma carta + moedas para deixá-la mais forte (+1 a +10) |
 | `/cidade` | `;cidade`, `;vila`, `;cid` | Funda e constrói sua cidade num mapa 5x5, com ranking de "maior cidade" |
 | `/ajuda` | `;ajuda`, `;help`, `;comandos` | Lista todos os comandos dentro do próprio Discord |
-| `/taverneiro <mensagem>` | `;taverneiro`, `;npc`, `;falar`, `;thomas` | Conversa com Thomas, o taverneiro da vila — um NPC com IA (Groq) |
+| `/taverneiro <mensagem>` | `;taverneiro`, `;npc`, `;falar`, `;thomas` | Conversa com Thomas, o taverneiro da vila — um NPC com IA (DeepSeek) |
 | `/convidar [npc]` | `;convidar`, `;recrutar` | Vê a lista de moradores convidáveis ou convida um deles (pagando moedas) pra viver na sua vila |
-| `/morador <npc> <mensagem>` | `;morador`, `;vizinho` | Conversa com um morador já convidado — cada um tem personalidade e memória próprias (IA, Groq) |
+| `/morador <npc> <mensagem>` | `;morador`, `;vizinho` | Conversa com um morador já convidado — cada um tem personalidade e memória próprias (IA, DeepSeek) |
 | `/taverna` | `;taverna`, `;cena` | Gera uma cena de diálogo entre os moradores da sua vila (e o Thomas) conversando entre si na taverna |
 | `/roubar <alvo>` | `;roubar`, `;assaltar` | Tenta roubar moedas soltas de outro jogador (o que está no `/banco` dele é protegido) |
 | `/admin` | `;admin` | Painel de administração (só admins) — veja a seção **Painel de Admin** abaixo |
@@ -140,7 +140,7 @@ Aposta mínima de 10 moedas, máxima de 5.000. Todos os jogos têm uma pequena v
 
 ## Taverneiro (NPC com IA)
 
-`/taverneiro <mensagem>` (ou `;taverneiro`, `;npc`, `;falar`) abre uma conversa com **Thomas**, o taverneiro da vila. Ele é movido pela **Groq API** (modelo padrão `openai/gpt-oss-120b`, grátis) e tem personalidade própria: conversa como uma pessoa normal do Discord, com gírias e humor, e reage ao que você diz.
+`/taverneiro <mensagem>` (ou `;taverneiro`, `;npc`, `;falar`) abre uma conversa com **Thomas**, o taverneiro da vila. Ele é movido pela **DeepSeek API** (modelo padrão `deepseek-flash`) e tem personalidade própria: conversa como uma pessoa normal do Discord, com gírias e humor, e reage ao que você diz.
 
 Dependendo da conversa — se você for simpático, engraçado, contar uma boa história ou convencê-lo de verdade — ele **pode**:
 - Dar uma gorjeta em moedas na hora
@@ -153,7 +153,7 @@ Ele também pode simplesmente não dar nada, ou ficar desconfiado se perceber qu
 - Máximo de 40 moedas de gorjeta por mensagem, e 150 por jogador por dia
 - Desconto máximo de 25%, válido por 10 min ou até a próxima compra (o que vier primeiro)
 
-Pra funcionar, defina `GROQ_API_KEY` no `.env` (chave grátis em https://console.groq.com). Sem a chave configurada, o comando responde educadamente que "Thomas está dormindo" em vez de quebrar o bot.
+Pra funcionar, defina `DEEPSEEK_API_KEY` no `.env` (chave em https://platform.deepseek.com/api_keys). Sem a chave configurada, o comando responde educadamente que "Thomas está dormindo" em vez de quebrar o bot.
 
 **A memória do Thomas é persistente**: fica salva no seu save (`data/players.json`), então ele lembra do seu histórico de conversa mesmo depois do bot reiniciar. O `/ia` (Narrador) funciona do mesmo jeito — antes a memória dele só existia em RAM e sumia a cada reinício do bot; agora também é salva.
 
@@ -171,7 +171,7 @@ Além do Thomas, a vila pode ganhar outros moradores com IA e personalidade pró
 1. Funde sua cidade primeiro (`/cidade`).
 2. `/convidar` (sem argumento) mostra a lista de moradores disponíveis e o custo em moedas de cada um. `/convidar npc:helena` (ou `;convidar helena`) convida.
 3. `/morador npc:helena mensagem:...` (ou `;morador helena <mensagem>`) conversa com quem já foi convidado. Assim como o Thomas, cada morador pode te dar uma pequena gorjeta em moedas ou um desconto na `/loja` se gostar da conversa — com os mesmos limites fixos no código (cooldown, teto diário de moedas, teto de desconto) pra IA nunca "quebrar" a economia. A `/loja` sempre aplica o **melhor** desconto ativo entre o Thomas e todos os moradores convidados.
-4. `/taverna` (ou `;taverna`, `;cena`) gera, na hora, uma cena de diálogo **entre os próprios NPCs** — o Thomas e até 2 moradores convidados, escolhidos aleatoriamente, batendo papo entre si na taverna (fofoca leve, causos, comentários sobre você). Usa a mesma `GROQ_API_KEY` do Thomas, sem precisar de configuração extra. Tem um cooldown de 3 min pra não abusar da API.
+4. `/taverna` (ou `;taverna`, `;cena`) gera, na hora, uma cena de diálogo **entre os próprios NPCs** — o Thomas e até 2 moradores convidados, escolhidos aleatoriamente, batendo papo entre si na taverna (fofoca leve, causos, comentários sobre você). Usa a mesma `DEEPSEEK_API_KEY` do Thomas, sem precisar de configuração extra. Tem um cooldown de 3 min pra não abusar da API.
 
 > Nota de design: Thomas (`/taverneiro`) e Aldric, o Mago (`/mago`) **não** entram na lista de convidáveis — o Thomas já é global e sempre disponível, e o Aldric já tem seu próprio sistema (sem IA) ligado aos Fragmentos Arcanos. Manter os dois de fora evita dois "cérebros" diferentes controlando o mesmo personagem.
 

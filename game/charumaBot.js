@@ -13,7 +13,7 @@
 // - Por segurança (custo de API), toda sessão também tem um teto de falas —
 //   se ninguém parar antes, ela se encerra sozinha.
 
-const { chatCompletion } = require('../lib/openrouter');
+const { chatCompletion } = require('../lib/deepseek');
 const { responderComoChatIA } = require('./chatBotIA');
 
 const INTERVALO_MS = 9_000;        // pausa entre uma fala e outra, pra não floodar o canal

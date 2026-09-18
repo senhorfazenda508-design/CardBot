@@ -10,19 +10,11 @@
 // Isso evita que o jogador zere a economia só de conversa fiada, não importa
 // com qual NPC ele esteja falando.
 
-const { chatCompletion } = require('../lib/openrouter');
+const { chatCompletion } = require('../lib/deepseek');
 const { obterPersonaExtra } = require('./npcPersona');
 
-const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
-const MODEL = process.env.GROQ_MODEL || 'openai/gpt-oss-120b';
-
-// gpt-oss (a família de modelos padrão da Groq atualmente) é um modelo de
-// "raciocínio": ele gasta parte dos tokens pensando internamente antes de
-// responder. Com max_tokens curto, esse raciocínio pode consumir tudo e
-// deixar o JSON final vazio/truncado (erro json_validate_failed). Por isso
-// pedimos raciocínio baixo (não precisamos disso pra um bate-papo curto) e
-// damos bastante margem de tokens.
-const USA_RACIOCINIO = MODEL.includes('gpt-oss');
+const DEEPSEEK_URL = 'https://api.deepseek.com/chat/completions';
+const MODEL = process.env.DEEPSEEK_MODEL || 'deepseek-flash';
 const MAX_TOKENS_RESPOSTA = 1500;
 
 // Limites padrão pra qualquer NPC novo (mais contidos que os do Thomas, que
@@ -53,8 +45,8 @@ const EMOJI_HUMOR = {
 // Ações "narrativas" que a IA pode sugerir por mensagem. IMPORTANTE: quem
 // decide de verdade se a ação realmente acontece — e com qual duração — é
 // SEMPRE o código aqui embaixo (com limites fixos), nunca a IA sozinha. Isso
-// vale tanto pra Groq quanto pra OpenRouter, e evita que alguém manipule o
-// NPC via chat (prompt injection) pra ele fazer algo fora do combinado.
+// evita que alguém manipule o NPC via chat (prompt injection) pra ele fazer
+// algo fora do combinado.
 // - "ignorar": resposta fria/curta + um aviso (não bloqueia nada).
 // - "expulsar": o NPC manda o jogador sair da TAVERNA, só na fala (flavor/
 //   cena) — o jogador continua podendo chamar /morador ou /taverneiro na
@@ -136,7 +128,7 @@ function extrairJSON(texto) {
   }
 }
 
-async function chamarGroq(mensagens, forcarJsonObject = true) {
+async function chamarDeepSeek(mensagens, forcarJsonObject = true) {
   const body = {
     model: MODEL,
     messages: mensagens,
@@ -144,20 +136,19 @@ async function chamarGroq(mensagens, forcarJsonObject = true) {
     max_tokens: MAX_TOKENS_RESPOSTA,
   };
   if (forcarJsonObject) body.response_format = { type: 'json_object' };
-  if (USA_RACIOCINIO) body.reasoning_effort = 'low';
 
-  const r = await fetch(GROQ_URL, {
+  const r = await fetch(DEEPSEEK_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
+      Authorization: `Bearer ${process.env.DEEPSEEK_API_KEY}`,
     },
     body: JSON.stringify(body),
   });
 
   if (!r.ok) {
     const errText = await r.text().catch(() => '');
-    console.error('Erro Groq API:', r.status, errText);
+    console.error('Erro DeepSeek API:', r.status, errText);
     return null;
   }
 
@@ -225,14 +216,17 @@ Você SEMPRE responde em JSON puro, sem texto fora do JSON, neste formato exato:
   return prompt;
 }
 
-// "Segunda opinião" independente, via OpenRouter, antes de aplicar uma ação
-// séria (expulsar/ficar_de_mal) sugerida pela Groq. A ideia é simples: um
-// jailbreak/prompt injection que engane UM modelo não é suficiente sozinho
-// pra tirar o jogador da cena ou fazer o NPC ficar de mal — os dois precisam
-// concordar. Se a OpenRouter não estiver configurada ou falhar, o padrão
-// seguro é NÃO confirmar (a ação é rebaixada pra algo mais leve).
+// Segunda chamada de confirmação (temperatura 0, pergunta separada) antes de
+// aplicar uma ação séria (expulsar/ficar_de_mal) sugerida pela IA na conversa
+// principal. Não é mais um provedor independente (antes usava OpenRouter
+// enquanto a conversa principal usava Groq) — hoje as duas chamadas são da
+// mesma DeepSeek — mas ainda ajuda: é um prompt novo, sem o contexto de
+// personagem do NPC, então um jailbreak que engane a conversa "em personagem"
+// não necessariamente engana essa checagem neutra também. Se a DeepSeek não
+// estiver configurada ou a chamada falhar, o padrão seguro é NÃO confirmar
+// (a ação é rebaixada pra algo mais leve).
 async function confirmarAcaoComSegundaIA(npc, acao, estado, mensagemUsuario, motivoIA) {
-  if (!process.env.OPENROUTER_API_KEY) return false;
+  if (!process.env.DEEPSEEK_API_KEY) return false;
   try {
     const ultimasFalas = (estado.historico || [])
       .slice(-8)
@@ -261,7 +255,7 @@ async function confirmarAcaoComSegundaIA(npc, acao, estado, mensagemUsuario, mot
 
     return /^sim/i.test(String(resposta || '').trim());
   } catch (err) {
-    console.error('Erro ao confirmar ação com segunda IA (OpenRouter):', err);
+    console.error('Erro ao confirmar ação com segunda IA (DeepSeek):', err);
     return false;
   }
 }
@@ -274,10 +268,10 @@ async function interagirComNPC({ npc, estado, player, mensagemUsuario, contextoA
   const cfg = { ...LIMITES_PADRAO, ...limites };
   garantirEstadoNPC(estado);
 
-  if (!process.env.GROQ_API_KEY) {
+  if (!process.env.DEEPSEEK_API_KEY) {
     return {
       ok: false,
-      resposta: `${npc.nome} parece estar ausente no momento... (nenhuma GROQ_API_KEY configurada no bot)`,
+      resposta: `${npc.nome} parece estar ausente no momento... (nenhuma DEEPSEEK_API_KEY configurada no bot)`,
     };
   }
 
@@ -324,14 +318,14 @@ async function interagirComNPC({ npc, estado, player, mensagemUsuario, contextoA
 
   let resposta;
   try {
-    resposta = await chamarGroq(mensagens);
+    resposta = await chamarDeepSeek(mensagens);
     if (!resposta) {
-      // Retentativa sem forçar response_format: às vezes o modelo gasta todo o
-      // orçamento de tokens "raciocinando" quando o JSON estrito é exigido.
-      resposta = await chamarGroq(mensagens, false);
+      // Retentativa sem forçar response_format: às vezes o modelo devolve
+      // texto fora do JSON estrito na primeira tentativa.
+      resposta = await chamarDeepSeek(mensagens, false);
     }
   } catch (err) {
-    console.error(`Erro ao chamar Groq (${npc.id}):`, err);
+    console.error(`Erro ao chamar DeepSeek (${npc.id}):`, err);
     return { ok: false, resposta: `${npc.nome} some por um instante e volta sem graça... (erro de conexão com a IA)` };
   }
 
@@ -437,7 +431,7 @@ module.exports = {
   garantirEstadoNPC,
   verificarDeMal,
   tierCliente,
-  chamarGroq,
+  chamarDeepSeek,
   extrairJSON,
   LIMITES_PADRAO,
   EMOCOES_VALIDAS,

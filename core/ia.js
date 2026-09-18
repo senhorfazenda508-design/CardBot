@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 const { getPlayer, savePlayer } = require('../db');
-const { chatCompletion, ErroIA } = require('../lib/openrouter');
+const { chatCompletion, ErroIA } = require('../lib/deepseek');
 const { getPersona } = require('../game/iaPersona');
 
 const COOLDOWN_MS = 8_000;
